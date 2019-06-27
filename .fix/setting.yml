@@ -1,0 +1,14 @@
+---
+# Fix Tasks ...
+
+replace:
+  - name: '@nuxt/vue-app'
+    file: node_modules/@nuxt/vue-app/types/index.d.ts
+    find: |-
+      export interface NuxtApp extends Vue
+    content: |-
+      interface NuxtAppAnyLoading extends Vue {
+        $loading: any
+      }
+
+      export interface NuxtApp extends NuxtAppAnyLoading
