@@ -1,22 +1,22 @@
 {
-	"Controller": {
-		"scope": "typescript",
-		"prefix": "K:express->controller",
-	 	"body": [
-	 		"import { Request, Response, NextFunction } from 'express'",
-			"import { Controller, Path, Router, Filter } from 'kenote-express-helper'",
-			"\n@Path('$1')",
-			"export default class ${2:MyController} extends Controller {\n\n}\n"
-	 	],
-	 	"description": "新建 Express 控制器."
-	},
-	"Index": {
-		"scope": "typescript",
-		"prefix": "K:express->controller",
-	 	"body": [
-	 		"import { MountController } from 'kenote-express-helper'",
-			"\nexport default MountController( $1 )\n"
-	 	],
-	 	"description": "新建 Express 控制器索引."
-	}
+  "Controller": {
+    "scope": "typescript",
+    "prefix": "K:express->controller",
+     "body": [
+       "import { Request, Response, NextFunction } from 'express'",
+       "import { Controller, Path, Router, Filter } from 'kenote-express-helper'",
+       "\n@Path('$1')",
+       "export default class ${2:MyController} extends Controller {\n\n}\n"
+     ],
+     "description": "新建 Express 控制器."
+  },
+  "Index": {
+    "scope": "typescript",
+    "prefix": "K:express->controller",
+     "body": [
+       "import { MountController } from 'kenote-express-helper'",
+       "\nexport default MountController( $1 )\n"
+     ],
+     "description": "新建 Express 控制器索引."
+  }
 }
