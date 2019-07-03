@@ -1,8 +1,8 @@
-
 import * as http from 'http'
-import express, { Application } from 'express'
+import * as express from 'express'
 import { Nuxt, Builder } from 'nuxt'
 import nuxtConfig from '../nuxt.config'
+import controller from './controller'
 
 const dev: boolean = process.env.NODE_ENV !== 'production'
 const nuxt: Nuxt = new Nuxt({ ...nuxtConfig, dev })
@@ -15,17 +15,13 @@ else {
   nuxt.ready()
 }
 
-const app: Application = express()
+const start = () => {
+  const app: express.Express = (<any> express)()
+  
+  app.use('/api', controller)
+  app.use(nuxt.render)
 
-app.use(nuxt.render)
+  http.createServer(app).listen(3000)
+}
 
-const Host: string = '0.0.0.0'
-const Port: number = 3000
-
-// Starting Server
-const server: http.Server = http.createServer(app)
-server.listen(Port, Host, () => {
-  console.log(`Service running in %s environment, Port: %d ...`, process.env.NODE_ENV || 'development', Port)
-})
-
-export default app
+start()

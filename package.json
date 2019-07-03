@@ -1,20 +1,22 @@
 {
   "name": "nuxt-express-typescript",
   "version": "1.0.0",
-  "description": "...",
+  "description": "Nuxt.js with Express, Typescript",
   "main": "index.js",
   "repository": "https://github.com/kenote/nuxt-express-typescript.git",
   "author": "thondery <thondery@163.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "npm run fix && nuxt",
+    "dev": "npm run fix && nuxt build",
     "dev:server": "npm run fix && backpack dev",
+    "build": "npm run fix && nuxt build && backpack build",
     "fix": "node .fix"
   },
   "dependencies": {
     "element-ui": "^2.10.0",
     "express": "^4.17.1",
     "kenote-config-helper": "^1.0.1",
+    "kenote-express-helper": "^1.1.1",
     "nuxt": "^2.8.1",
     "nuxt-property-decorator": "^2.3.0",
     "ts-node": "^8.3.0"

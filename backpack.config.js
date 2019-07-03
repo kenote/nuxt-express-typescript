@@ -11,7 +11,10 @@ module.exports = {
 
     config.module.rules.push({
       test: /\.ts$/,
-      loader: 'awesome-typescript-loader'
+      loader: 'awesome-typescript-loader',
+      options: {
+        configFileName: 'server/tsconfig.json'
+      }
     })
     return config
   }

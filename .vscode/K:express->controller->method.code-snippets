@@ -1,0 +1,24 @@
+{
+	"default": {
+		"scope": "typescript",
+		"prefix": "K:express->controller->method",
+	 	"body": [
+	 		"@Router({ method: '${1:get}', path: '$2' })",
+      "public ${3:myapi} (req: Request, res: Response, next: NextFunction): Response | void {\n",
+      "  return res.json(null)",
+      "}\n"
+	 	],
+	 	"description": "创建路由方法."
+	},
+	"async": {
+		"scope": "typescript",
+		"prefix": "K:express->controller->method",
+	 	"body": [
+	 		"@Router({ method: '${1:get}', path: '$2' })",
+			"public async ${3:myapi} (req: Request, res: Response, next: NextFunction): Promise<Response | void> {\n",
+      "  return res.json(null)",
+      "}\n"
+	 	],
+	 	"description": "创建路由方法."
+	},
+}
