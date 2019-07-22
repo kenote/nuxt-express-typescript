@@ -58,3 +58,13 @@ export interface Payload extends Maps<any> {
  */
 export type JwtSign = (payload: Payload, options?: jwt.SignOptions) => string
 
+/**
+ * HTTPServer
+ */
+export interface HTTPServer {
+
+  /**
+   * Request
+   */
+  req          : IRequest
+}
