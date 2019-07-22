@@ -18,7 +18,12 @@
     "removeComments": true,
     "suppressImplicitAnyIndexErrors": true,
     "allowSyntheticDefaultImports": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "plugins": [
+      {
+        "transform": "ts-optchain/transform"
+      }
+    ]
   },
   "exclude": [
     

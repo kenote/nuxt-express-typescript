@@ -24,7 +24,7 @@ redis:
   db              : 0
 
 # 设置 MongoDB 数据库
-mongo:
+mongodb:
   uris            : mongodb://localhost:27017/nuxt-express-typescript
   options:
     useNewUrlParser        : true
