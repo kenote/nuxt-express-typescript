@@ -7,10 +7,12 @@
   "author": "thondery <thondery@163.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "npm run fix && nuxt",
-    "dev:server": "npm run fix && backpack dev",
+    "dev": "npm run fix && backpack dev",
     "build": "npm run fix && nuxt build && backpack build",
-    "fix": "node .fix"
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs",
+    "task": "ts-node --project server/tsconfig.json tools/task.ts",
+    "fix": "ts-node --project server/tsconfig.json .fix/index.ts"
   },
   "dependencies": {
     "connect-redis": "^3.4.1",
@@ -21,18 +23,26 @@
     "express": "^4.17.1",
     "express-session": "^1.16.2",
     "jsonwebtoken": "^8.5.1",
-    "kenote-config-helper": "/Users/thondery/workspace/github/kenote/config-helper",
+    "kenote-config-helper": "^1.0.3",
     "kenote-express-helper": "^1.1.1",
+    "kenote-mailer-helper": "^1.1.2",
+    "kenote-mongoose-helper": "^1.1.1",
+    "kenote-store-helper": "^1.1.1",
+    "kenote-task-helper": "^1.1.0",
+    "kenote-validate-helper": "^1.1.0",
     "method-override": "^3.0.0",
+    "mongoose": "^5.6.4",
     "nunjucks": "^3.2.0",
     "nuxt": "^2.8.1",
     "nuxt-property-decorator": "^2.3.0",
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
-    "ts-node": "^8.3.0"
+    "ts-node": "^8.3.0",
+    "ts-optchain": "^0.1.7"
   },
   "devDependencies": {
     "@nuxt/typescript": "^2.8.1",
+    "@types/bluebird": "^3.5.27",
     "@types/connect-redis": "^0.0.10",
     "@types/cookie-parser": "^1.4.1",
     "@types/cors": "^2.8.5",
@@ -40,9 +50,12 @@
     "@types/express": "^4.17.0",
     "@types/express-session": "^1.15.13",
     "@types/fs-extra": "^8.0.0",
+    "@types/inquirer": "^6.0.3",
     "@types/js-yaml": "^3.12.1",
     "@types/jsonwebtoken": "^8.3.2",
+    "@types/lodash": "^4.14.136",
     "@types/method-override": "^0.0.31",
+    "@types/mongoose": "^5.5.7",
     "@types/node": "^12.0.10",
     "@types/nunjucks": "^3.1.1",
     "@types/passport": "^1.0.0",
@@ -51,6 +64,18 @@
     "@types/webpack-env": "^1.13.9",
     "awesome-typescript-loader": "^5.2.1",
     "backpack-core": "^0.8.4",
-    "typescript": "^3.5.2"
-  }
+    "typescript": "^3.5.2",
+    "vuepress": "^1.0.2"
+  },
+  "engines": {
+    "node": ">8.0.0"
+  },
+  "keywords": [
+    "kenote",
+    "nuxt",
+    "vue",
+    "express",
+    "mongoose",
+    "typescript"
+  ]
 }

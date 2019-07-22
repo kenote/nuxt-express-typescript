@@ -28,6 +28,11 @@
     "types": [
       "@types/node",
       "@nuxt/vue-app"
+    ],
+    "plugins": [
+      {
+        "transform": "ts-optchain/transform"
+      }
     ]
   },
   "exclude": [

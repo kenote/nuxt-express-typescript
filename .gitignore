@@ -40,7 +40,11 @@ yarn.lock
 build/
 data/**/*.yml
 !data/**/*.default.yml
-deploy/
+.deploy/**/*
+uploadfiles/
+!README.md
+!README_CN.md
+docs/
 
 # TypeScript v1 declaration files
 typings/
