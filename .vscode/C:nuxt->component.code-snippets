@@ -1,0 +1,19 @@
+{
+  "default": {
+    "scope": "vue",
+    "prefix": "C:nuxt->component",
+    "body": [
+      "<template>",
+      "  <div></div>",
+      "</template>",
+      "\n<script lang=\"ts\">",
+      "import { Component, Prop, Provide, Vue } from 'nuxt-property-decorator'",
+      "\n@Component({",
+      "  name: '${1:mycomponent}'",
+      "})",
+      "export default class  extends Vue {\n  \n}",
+      "</script>"
+    ],
+    "description": "新建 Nuxt 组件."
+  },
+}

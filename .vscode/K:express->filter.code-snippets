@@ -2,31 +2,31 @@
   "new": {
     "scope": "typescript",
     "prefix": "K:express->filter",
-     "body": [
-       "import { Request, Response, NextFunction } from 'express'",
-       "\nclass ${1:MyFilter} {\n\n}\n",
-       "export default new ${1:MyFilter}()"
-     ],
-     "description": "新建 Express 过滤器."
+    "body": [
+      "import { Request, Response, NextFunction } from 'express'",
+      "\nclass ${1:MyFilter} {\n\n}\n",
+      "export default new ${1:MyFilter}()"
+    ],
+    "description": "新建 Express 过滤器."
   },
   "method": {
     "scope": "typescript",
     "prefix": "K:express->filter",
-     "body": [
-       "public ${1:myapi} (req: Request, res: Response, next: NextFunction): Response | void {",
-       "  return next()",
-       "}\n"
-     ],
-     "description": "过滤器方法."
+    "body": [
+      "public ${1:myapi} (req: Request, res: Response, next: NextFunction): Response | void {",
+      "  return next()",
+      "}\n"
+    ],
+    "description": "过滤器方法."
   },
   "async method": {
     "scope": "typescript",
     "prefix": "K:express->filter",
-     "body": [
-       "public async ${1:myapi} (req: Request, res: Response, next: NextFunction): Promise<Response | void> {",
-       "  return next()",
-       "}\n"
-     ],
-     "description": "过滤器方法."
+    "body": [
+      "public async ${1:myapi} (req: Request, res: Response, next: NextFunction): Promise<Response | void> {",
+      "  return next()",
+      "}\n"
+    ],
+    "description": "过滤器方法."
   }
 }

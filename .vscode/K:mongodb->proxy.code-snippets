@@ -1,0 +1,20 @@
+{
+  "default": {
+    "scope": "typescript",
+    "prefix": "K:mongodb->proxy",
+    "body": [
+      "import * as mongoose from 'mongoose'",
+      "import { MongooseDao, autoNumber, QueryOptions } from 'kenote-mongoose-helper'",
+      "import __Models from '../models'",
+      "\nconst Model: mongoose.Model<mongoose.Document, {}> = __Models.${1:myModel}",
+      "const options: QueryOptions = {}",
+      "\n@autoNumber({ idName: 'id' })",
+      "class ${2:My}Dao extends MongooseDao {}",
+      "\nclass ${2:My}Proxy {",
+      "\n  public Dao: MongooseDao = new ${2:My}Dao(Model, options)",
+      "}",
+      "\nexport default new ${2:My}Proxy()"
+    ],
+    "description": "新建 MongoDB Proxy."
+  },
+}

@@ -1,0 +1,22 @@
+{
+  "default": {
+    "scope": "typescript",
+    "prefix": "C:store->module",
+    "body": [
+      "import { ActionTree, MutationTree, GetterTree, ActionContext } from 'vuex'",
+      "import { Maps } from 'kenote-config-helper'",
+      "import { RootState } from '../'",
+      "\nexport const name: string = '${1:modulename}'",
+      "\nexport const types: Maps<string> = {}",
+      "\nexport interface State extends Maps<any> {}",
+      "\nexport const namespaced: boolean = true",
+      "\nexport const state = (): State => ({})",
+      "\nexport const getters: GetterTree<State, RootState> = {}",
+      "\nexport interface Actions<S, R> extends ActionTree<S, R> {}",
+      "\nexport const actions: Actions<State, RootState> = {}",
+      "\nexport const mutations: MutationTree<State> = {}"
+    ],
+    "description": "新建 Nuxt 组件."
+  },
+}
+

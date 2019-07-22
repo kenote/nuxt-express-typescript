@@ -1,0 +1,18 @@
+{
+  "default": {
+    "scope": "typescript",
+    "prefix": "K:mongodb->model",
+    "body": [
+      "import { Schema, model } from 'mongoose'",
+      "\nexport default model('${1:mymodel}', new Schema({",
+      "  id: {",
+      "    type: Number,",
+      "    default: 0,",
+      "    index: { unique: true }",
+      "  },",
+      "}))"
+    ],
+    "description": "新建 MongoDB Model."
+  },
+}
+
