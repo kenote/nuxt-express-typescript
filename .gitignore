@@ -41,6 +41,7 @@ build/
 data/**/*.yml
 !data/**/*.default.yml
 .deploy/**/*
+channels/**/*
 uploadfiles/
 !README.md
 !README_CN.md
