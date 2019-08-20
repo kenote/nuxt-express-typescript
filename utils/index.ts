@@ -1,5 +1,6 @@
 import { assign } from 'lodash'
 import { Maps } from 'kenote-config-helper'
+import { Command } from '@/types'
 
 /**
  * 将多个集合进行参数合并
@@ -15,4 +16,18 @@ export function mergeCollection (fields: string, ...collections: Array<Maps<any>
     is_push && newCollection.push(assign({}, ...items))
   }
   return newCollection
+}
+
+/**
+ * 解析菜单命令
+ * @param value string
+ */
+export const parseCommand = (value: string): Command.Value | null => {
+  if (!value) return null
+  let command: RegExpMatchArray | null = value.match(/^(command|router)\:(\S+)$/)
+  if (!command) return null
+  return {
+    type: <Command.Type> command[1],
+    path: command[2]
+  }
 }

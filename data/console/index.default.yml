@@ -1,0 +1,22 @@
+---
+# 用户控制台配置 ########################################################################
+######################################################################################
+
+# 用户入口
+userEntrance      :
+  - name              : 基本资料
+    command           : router:/console/accout/baseinfo
+  - name              : 实名认证
+    command           : 
+  - name              : 安全设置
+    command           : router:/console/account/security
+  - name              : 我的主页
+    command           : 
+  - name              : 我的收藏
+    command           : 
+  - name              : 访问控制
+    command           : 
+  - name              : Accesskeys
+    command           : 
+
+ 

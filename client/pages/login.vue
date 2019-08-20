@@ -7,10 +7,10 @@
           <p class="secondary-title">{{ activity.secondary_title }}</p>
         </el-carousel-item>
       </el-carousel>
-      <div v-if="activitys.length === 1">
+      <fragment v-if="activitys.length === 1">
         <p v-for="(item, key) in activitys[0].main_title" :key="key" class="main-title">{{ item }}</p>
         <p class="secondary-title">{{ activitys[0].secondary_title }}</p>
-      </div>
+      </fragment>
     </div>
     <passport-login @submit="handleLogin" v-loading="loading" :loading="loading">
       <p class="service-terms">

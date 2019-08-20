@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
-import { IError, IErrorInfo, Maps } from 'kenote-config-helper'
+import { IError, IErrorInfo, Maps, KenoteConfig } from 'kenote-config-helper'
 import * as jwt from 'jsonwebtoken'
 import * as singlepage from './singlepage'
+import { Dropdown } from './'
 
 /**
  * 自定义 Response
@@ -39,6 +40,27 @@ export interface IRequest extends Request, Maps<any> {
    */
   __singlePages         : singlepage.Item[]
 
+  /**
+   * 控制台用户入口
+   */
+  __userEntrance        : Dropdown.MenuItem[]
+
+  /**
+   * 频道配置
+   */
+  __channels            : KenoteConfig.Channel[]
+
+}
+
+/**
+ * 控制台配置
+ */
+export interface ConsoleSettings {
+
+  /**
+   * 用户入口
+   */
+  userEntrance          : Dropdown.MenuItem[]
 }
 
 /**

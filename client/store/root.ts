@@ -20,14 +20,10 @@ export interface Actions<S, R> extends ActionTree<S, R> {
 
 export const actions: Actions<State, RootState> = {
   async nuxtServerInit({ commit }, { req }) {
-    // 
-    
-    // console.log('req', req.path)
-    // console.log(req.protocol + '://' + req.headers.host)
-    // console.log(req.cookies['token'])
-
     commit(`${setting.name}/${setting.types.REGISTER}`, req.__register)
     commit(`${setting.name}/${setting.types.SINGLEPAGES}`, req.__singlePages)
+    commit(`${setting.name}/${setting.types.USERENTRANCE}`, req.__userEntrance)
+    commit(`${setting.name}/${setting.types.CHANNELS}`, req.__channels)
     if (req.cookies['token']) {
       let headers: HeaderOptions = {
         token: req.cookies['token']

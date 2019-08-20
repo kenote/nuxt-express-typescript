@@ -2,6 +2,7 @@ import { ActionTree, MutationTree, GetterTree, ActionContext } from 'vuex'
 import { Maps } from 'kenote-config-helper'
 import { RootState } from '../'
 import { responseDocument } from '@/types/proxys/user'
+import { oc } from 'ts-optchain'
 
 export const name: string = 'auth'
 
@@ -38,7 +39,7 @@ export const actions: Actions<State, RootState> = {
 export const mutations: MutationTree<State> = {
   [types.SET] (state: State, user: responseDocument | null): void {
     state.user = user
-    state.token = user!.jw_token || null
+    state.token = oc(user).jw_token() || null
   },
   [types.EMAIL] (state: State, email: string): void {
     if (!state.user) return

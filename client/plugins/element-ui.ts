@@ -3,6 +3,10 @@ import {
   Button, 
   Carousel, 
   CarouselItem,
+  Col,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
   Form, 
   FormItem, 
   Input, 
@@ -19,6 +23,10 @@ export default () => {
   Vue.use(Button)
   Vue.use(Carousel)
   Vue.use(CarouselItem)
+  Vue.use(Col)
+  Vue.use(Dropdown)
+  Vue.use(DropdownItem)
+  Vue.use(DropdownMenu)
   Vue.use(Form)
   Vue.use(FormItem)
   Vue.use(Input)
