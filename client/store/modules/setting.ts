@@ -22,8 +22,9 @@ export interface State extends Maps<any> {
   register          ?: Register.Config
   singlepages       ?: singlepage.Item[]
   channels           : KenoteConfig.Channel[]
-  selected           : { channel: number }
+  selected           : Maps<number>
   userEntrance       : Dropdown.MenuItem[]
+  loading            : Maps<boolean>
 }
 
 export const namespaced: boolean = true
@@ -33,7 +34,10 @@ export const state = (): State => ({
   selected: { 
     channel: 0 
   },
-  userEntrance: []
+  userEntrance: [],
+  loading: {
+    channel: false
+  }
 })
 
 export const defaultChannel: KenoteConfig.Channel = { id: 0, name: '控制台', label: 'console', navs: [], default: '/' }
@@ -64,16 +68,23 @@ export const actions: Actions<State, RootState> = {
 }
 
 export const mutations: MutationTree<State> = {
-  [types.REGISTER] (state: State, register: Register.Config) {
+  [types.REGISTER] (state: State, register: Register.Config): void {
     state.register = register
   },
-  [types.SINGLEPAGES] (state: State, singlepages: singlepage.Item[]) {
+  [types.SINGLEPAGES] (state: State, singlepages: singlepage.Item[]): void {
     state.singlepages = singlepages
   },
-  [types.USERENTRANCE] (state: State, userEntrance: Dropdown.MenuItem[]) {
+  [types.USERENTRANCE] (state: State, userEntrance: Dropdown.MenuItem[]): void {
     state.userEntrance = userEntrance
   },
-  [types.CHANNELS] (state: State, channels: KenoteConfig.Channel[]) {
+  [types.CHANNELS] (state: State, channels: KenoteConfig.Channel[]): void {
     state.channels = channels
-  }
+  },
+  [types.SELECTCHANNEL] (state: State, id: number): void {
+    state.selected.channel = id
+    state.loading.channel = false
+  },
+  [types.LOADING] (state: State, key: string): void {
+    state.loading[key] = true
+  },
 }

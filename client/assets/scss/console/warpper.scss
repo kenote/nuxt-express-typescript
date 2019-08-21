@@ -2,6 +2,7 @@
 .console_body {
   height: inherit;
   color: #747474;
+  overflow-x: hidden;
 
   .console_warpper {
     width: 100%;
@@ -91,6 +92,77 @@
       .header-mobile-end {
         display: none;
       }
+    }
+
+    .bodyer {
+      height: inherit;
+      display: flex;
+      flex-direction: row;
+  
+      .auth-sider-menu {
+        width: auto;
+      }
+  
+      .mobile-right {
+        display: none;
+        transition: all .3s;
+        background: #444c54;
+      }
+  
+      .sidebar-nav {
+        //flex: 0 0 260px;
+        height: inherit;
+        background: #444c54;
+        border-right: solid 1px #e6e6e6;
+        transition: all .3s;
+        display: flex;
+        flex-direction: column;
+  
+        .el-loading-mask {
+          background-color: transparent;
+  
+          .el-loading-spinner {
+            top: 30%;
+          }
+        }
+  
+        .menu-collapsed {
+          //height: 24px;
+          flex: 0 0 24px;
+          background: #313c44;
+          justify-content: center;
+          display: flex;
+          align-items: center;
+          color: #fff;
+          margin-right: 1px;
+          cursor: pointer;
+  
+          .iconfont {
+            font-size: 10px;
+          }
+        }
+  
+        .el-menu {
+          //height: inherit;
+          border-right: 0;
+          
+          overflow-x: hidden;
+          //height: 100%;
+  
+          .iconfont {
+            vertical-align: middle;
+            margin: 0 8px 0 4px;
+            width: 24px;
+            text-align: center;
+            font-size: 18px;
+          }
+        }
+  
+        .el-menu--collapse {
+          overflow-y: hidden;
+        }
+      }
+      
     }
   }
 

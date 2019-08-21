@@ -1,5 +1,5 @@
 import { GetterTree, ActionContext, ActionTree, MutationTree } from 'vuex'
-import { Maps } from 'kenote-config-helper'
+import { Maps, getChannelId } from 'kenote-config-helper'
 import { RootState } from './'
 import { HTTPServer, resufulInfo, HeaderOptions } from '@/types/resuful'
 import * as setting from './modules/setting'
@@ -24,6 +24,9 @@ export const actions: Actions<State, RootState> = {
     commit(`${setting.name}/${setting.types.SINGLEPAGES}`, req.__singlePages)
     commit(`${setting.name}/${setting.types.USERENTRANCE}`, req.__userEntrance)
     commit(`${setting.name}/${setting.types.CHANNELS}`, req.__channels)
+    let channelId: number = getChannelId(req.__channels, req.path)
+    console.log(channelId)
+    commit(`${setting.name}/${setting.types.SELECTCHANNEL}`, channelId || 0)
     if (req.cookies['token']) {
       let headers: HeaderOptions = {
         token: req.cookies['token']

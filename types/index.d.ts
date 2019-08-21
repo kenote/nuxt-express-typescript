@@ -9,6 +9,16 @@ export declare namespace Dropdown {
   }
 }
 
+export declare namespace Sidebar {
+
+  interface MenuItem {
+    index          : string
+    name           : string
+    icon          ?: string
+    children      ?: MenuItem[]
+  }
+}
+
 export declare namespace Command {
 
   type Type = 'command' | 'router'

@@ -11,11 +11,15 @@ import {
   FormItem, 
   Input, 
   Loading, 
+  Menu,
+  MenuItem,
   Message, 
   Radio,
   RadioGroup,
   Row, 
+  Submenu
 } from 'element-ui'
+import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 // import locale from 'element-ui/lib/locale/lang/en'
 
 export default () => {
@@ -31,8 +35,12 @@ export default () => {
   Vue.use(FormItem)
   Vue.use(Input)
   Vue.use(Loading)
+  Vue.use(Menu)
+  Vue.use(MenuItem)
   Vue.use(Radio)
   Vue.use(RadioGroup)
   Vue.use(Row)
+  Vue.use(Submenu)
+  Vue.component(CollapseTransition.name, CollapseTransition)
   Vue.prototype.$message = Message
 }

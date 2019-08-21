@@ -5,9 +5,15 @@
       :channels="channels"
       :current-channel="selectedChannel"
       :user-entrance="userEntrance"
+      :select-channel="handleSelectChannel"
       >
 
     </console-header>
+    <div class="bodyer">
+      <div class="console-page" >
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -18,9 +24,10 @@ import { KenoteConfig } from 'kenote-config-helper'
 import * as setting from '~/store/modules/setting'
 import * as auth from '~/store/modules/auth'
 import consoleHeader from './console/header.vue'
-import '~/assets/scss/console/warpper.scss'
 import { responseDocument as responseUserDocument } from '@/types/proxys/user'
 import { Dropdown } from '@/types'
+import '~/assets/scss/console/warpper.scss'
+import '~/assets/scss/console/page.scss'
 
 const Setting: BindingHelpers = namespace(setting.name)
 const Auth: BindingHelpers = namespace(auth.name)
@@ -41,6 +48,12 @@ export default class R extends Vue {
   @Setting.Action selectChannel!: (id: number) => void
   @Setting.Getter selectedChannel!: KenoteConfig.Channel
   @Setting.Getter channelStore
+
+  handleSelectChannel (value: number): void {
+    if (this.selectedChannel.id === value) return
+    let channel: KenoteConfig.Channel = this.channels.find( o => o.id === value )!
+    this.$router.push(channel.default!)
+  }
   
 }
 </script>

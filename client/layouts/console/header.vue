@@ -6,7 +6,7 @@
           <img src="~/assets/images/logo.png" style="height:24px" />
         </nuxt-link>
       </div>
-      <el-dropdown placement="top-start" trigger="click" @visible-change="handleVisible">
+      <el-dropdown @command="selectChannel" placement="top-start" trigger="click" @visible-change="handleVisible">
         <a class="header-link" v-bind:class="visible ? 'active' : ''">
           <span class="el-dropdown-link">
             <i class="el-icon-menu el-icon--left"></i>{{ currentChannel.name }}
@@ -63,6 +63,7 @@ export default class R extends Vue {
   @Prop({ default: null }) auth!: responseUserDocument
   @Prop({ default: [] }) channels!: KenoteConfig.Channel[]
   @Prop({ default: [] }) userEntrance!: Dropdown.MenuItem[]
+  @Prop({ default: (value: number): void => {} }) selectChannel!: (value: number) => void
 
   @Provide() visible: boolean = false
   @Provide() platforms: KenoteConfig.Channel[] = []
