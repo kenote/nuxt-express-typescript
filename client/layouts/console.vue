@@ -52,7 +52,9 @@ import consoleHeader from './console/header.vue'
 import sidebarMenu from '~/components/sidebar/menu.vue'
 import { responseDocument as responseUserDocument } from '@/types/proxys/user'
 import { Dropdown } from '@/types'
+import { FlagItem } from '@/types/resuful'
 import { map } from 'lodash'
+import { oc } from 'ts-optchain'
 import '~/assets/scss/console/warpper.scss'
 import '~/assets/scss/console/page.scss'
 
@@ -76,6 +78,7 @@ export default class R extends Vue {
   @Setting.State channels!: KenoteConfig.Channel[]
   @Setting.State userEntrance!: Dropdown.MenuItem[]
   @Setting.State loading!: Maps<boolean>
+  @Setting.State flags!: FlagItem[]
   @Setting.Action selectChannel!: (id: number) => void
   @Setting.Getter selectedChannel!: KenoteConfig.Channel
   @Setting.Getter channelStore
@@ -102,8 +105,8 @@ export default class R extends Vue {
   async updateChannel (routerPath: string): Promise<void> {
     if (!this.user) return
     let { group, teams, access } = this.user
-    //let pageFlag: any = 
-    let permission: boolean = true
+    let pageFlag: FlagItem = this.flags[routerPath]
+    let permission: boolean = oc(pageFlag).access(1000) <= group.level
     if (group.level < 9000 && permission) {
       let iaccess: string[] = (access || []).length > 0 ? access : Array.from(new Set(map(teams, 'access').toString().split(',')))
       permission = iaccess.includes(routerPath)

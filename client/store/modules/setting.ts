@@ -1,7 +1,7 @@
 import { ActionTree, MutationTree, GetterTree, ActionContext } from 'vuex'
 import { Maps, KenoteConfig, Channel } from 'kenote-config-helper'
 import { RootState } from '../'
-import { Register } from '@/types/resuful'
+import { Register, FlagItem } from '@/types/resuful'
 import * as singlepage from '@/types/singlepage'
 import { Dropdown } from '@/types'
 
@@ -14,7 +14,8 @@ export const types = {
   SELECTCHANNEL      : 'SELECTCHANNEL',
   LOADING            : 'LOADING',
   USERENTRANCE       : 'USERENTRANCE',
-  CHANNELS           : 'CHANNELS'
+  CHANNELS           : 'CHANNELS',
+  FLAGES             : 'FLAGES'
 }
 
 export interface State extends Maps<any> {
@@ -25,6 +26,7 @@ export interface State extends Maps<any> {
   selected           : Maps<number>
   userEntrance       : Dropdown.MenuItem[]
   loading            : Maps<boolean>
+  flags              : Maps<FlagItem>
 }
 
 export const namespaced: boolean = true
@@ -37,7 +39,8 @@ export const state = (): State => ({
   userEntrance: [],
   loading: {
     channel: false
-  }
+  },
+  flags: {}
 })
 
 export const defaultChannel: KenoteConfig.Channel = { id: 0, name: '控制台', label: 'console', navs: [], default: '/' }
@@ -86,5 +89,8 @@ export const mutations: MutationTree<State> = {
   },
   [types.LOADING] (state: State, key: string): void {
     state.loading[key] = true
+  },
+  [types.FLAGES](state: State, flags: Maps<FlagItem>): void {
+    state.flags = flags
   },
 }

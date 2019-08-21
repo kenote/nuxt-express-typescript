@@ -50,6 +50,22 @@ export interface IRequest extends Request, Maps<any> {
    */
   __channels            : KenoteConfig.Channel[]
 
+  /**
+   * 页面权限配置
+   */
+  __flags               : Maps<FlagItem>
+
+}
+
+/**
+ * 页面权限配置
+ */
+export interface FlagItem {
+
+  /**
+   * 访问权限
+   */
+  access                : number
 }
 
 /**
