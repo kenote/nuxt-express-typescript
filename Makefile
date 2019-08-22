@@ -12,7 +12,7 @@ clear:
 
 install:
 	@npm set registry https://registry.npm.taobao.org
-	@npm install --production
+	@npm install
 	@npm audit fix
 
 reinstall:

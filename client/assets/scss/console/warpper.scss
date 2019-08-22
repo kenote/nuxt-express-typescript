@@ -95,7 +95,13 @@
     }
 
     .bodyer {
-      height: inherit;
+      position: fixed;
+      top: 54px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transition: all .5s;
+      // height: inherit;
       display: flex;
       flex-direction: row;
   
@@ -117,6 +123,7 @@
         transition: all .3s;
         display: flex;
         flex-direction: column;
+        position: relative;
   
         .el-loading-mask {
           background-color: transparent;
@@ -140,6 +147,15 @@
           .iconfont {
             font-size: 10px;
           }
+        }
+
+        .collapse {
+          position: absolute;
+          //top: 50%;
+          left: 100%;
+          transform: translate(-50%, -50%);
+          z-index: 9999;
+          bottom: 0;
         }
   
         .el-menu {

@@ -50,10 +50,6 @@ export const getters: GetterTree<State, RootState> = {
     let p: KenoteConfig.Channel = state.channels.find( o => o.id === state.selected.channel )!
     return p || defaultChannel
   },
-  channelStore: state => {
-    let p: KenoteConfig.Channel = state.channels.find( o => o.id === state.selected.channel ) || defaultChannel
-    return new Channel(p)
-  }
 }
 
 export interface Actions<S, R> extends ActionTree<S, R> {

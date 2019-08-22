@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import { 
+  Breadcrumb,
+  BreadcrumbItem,
   Button, 
   Carousel, 
   CarouselItem,
@@ -24,6 +26,8 @@ import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 
 export default () => {
   // Vue.use(Element, { locale })
+  Vue.use(Breadcrumb)
+  Vue.use(BreadcrumbItem)
   Vue.use(Button)
   Vue.use(Carousel)
   Vue.use(CarouselItem)

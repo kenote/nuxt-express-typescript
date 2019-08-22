@@ -10,8 +10,8 @@
       >
 
     </console-header>
-    <div class="bodyer">
-      <div class="sidebar-nav" v-bind:style="collapse ? 'flex: 0 0 65px' : 'flex: 0 0 260px'" >
+    <div class="bodyer" v-bind:style="collapse ? 'left:-245px' : ''">
+      <div class="sidebar-nav" v-bind:style="'flex: 0 0 260px'" >
         <div style="height: calc(100% - 24px);overflow-y:auto;" v-loading="loading.channel">
           <template v-for="(channel, key) in channels" >
             <el-collapse-transition :key="key" v-if="channel.id === selectedChannel.id">
@@ -22,15 +22,18 @@
                 backgroundColor="#444c54"
                 textColor="#fff"
                 activeTextColor="#ffd04b"
-                :collapse="collapse"
+                :collapse="false"
                 :router="true"
                 :auth="user"
                 />
             </el-collapse-transition>
           </template>
         </div>
-        <div class="menu-collapsed" @click="handleCollapse">
+        <!--<div class="menu-collapsed" @click="handleCollapse">
           <i class="iconfont" v-bind:class="collapse ? 'icon-menu-unfold' : 'icon-menu-fold'"></i>
+        </div>-->
+        <div class="collapse">
+          <el-button size="medium" class="iconfont" v-bind:icon="collapse ? 'icon-menu-unfold' : 'icon-menu-fold'" circle @click="handleCollapse"></el-button>
         </div>
       </div>
       <div class="console-page" >
@@ -81,7 +84,6 @@ export default class R extends Vue {
   @Setting.State flags!: FlagItem[]
   @Setting.Action selectChannel!: (id: number) => void
   @Setting.Getter selectedChannel!: KenoteConfig.Channel
-  @Setting.Getter channelStore
 
   @Provide() permission: boolean = true
 
