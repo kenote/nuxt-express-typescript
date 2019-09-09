@@ -7,7 +7,13 @@
         </nuxt-link>
         <div class="list">
           <nuxt-link to="/">文档中心</nuxt-link>
-          <nuxt-link to="/login">登录</nuxt-link>
+          <template v-if="auth">
+            <nuxt-link class="console" to="/console">控制台</nuxt-link>
+          </template>
+          <template v-else>
+            <nuxt-link to="/login">登录</nuxt-link>
+          </template>
+          
           <nuxt-link to="/">首页</nuxt-link>
         </div>
       </div>
@@ -20,7 +26,8 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Provide } from 'nuxt-property-decorator'
+import { Component, Vue, Provide, Prop } from 'nuxt-property-decorator'
+import { responseDocument as responseUserDocument } from '@/types/proxys/user'
 
 @Component({
   name: 'passport-header',
@@ -28,5 +35,8 @@ import { Component, Vue, Provide } from 'nuxt-property-decorator'
     
   }
 })
-export default class  extends Vue {}
+export default class  extends Vue {
+
+  @Prop({ default: null }) auth!: responseUserDocument
+}
 </script>

@@ -2,7 +2,8 @@ import { NextFunction } from 'express'
 import { IRequest, IResponse, Register, ConsoleSettings, FlagItem } from '@/types/resuful'
 import * as singlepage from '@/types/singlepage'
 import { loadData } from 'kenote-config-helper/dist/utils.server'
-import { KenoteConfig, Maps } from 'kenote-config-helper'
+import { KenoteConfig, Maps, Navigation } from 'kenote-config-helper'
+import * as homepage from '@/types/homepage'
 
 export function nuxtHandler (req: IRequest, res: IResponse, next: NextFunction): void {
   let isPage: boolean = !/^(\/\_nuxt|\/__webpack_hmr)|(\.ico|\.png)$/.test(req.path)
@@ -13,6 +14,9 @@ export function nuxtHandler (req: IRequest, res: IResponse, next: NextFunction):
     req.__userEntrance = userEntrance
     req.__channels = loadData('data/channels', 'array') as KenoteConfig.Channel[]
     req.__flags = loadData('data/flags') as Maps<FlagItem>
+    req.__homepage = loadData('data/homepage') as Maps<homepage.Page>
+    // console.log(req.__homepage)
+    req.__navigation = loadData('data/navigation') as Maps<Navigation[]>
   }
   return next()
 }

@@ -27,6 +27,8 @@ export const actions: Actions<State, RootState> = {
     let channelId: number = getChannelId(req.__channels, req.path)
     commit(`${setting.name}/${setting.types.SELECTCHANNEL}`, channelId || 0)
     commit(`${setting.name}/${setting.types.FLAGES}`, req.__flags)
+    commit(`${setting.name}/${setting.types.HOMEPAGE}`, req.__homepage)
+    commit(`${setting.name}/${setting.types.NAVIGATION}`, req.__navigation)
     if (req.cookies['token']) {
       let headers: HeaderOptions = {
         token: req.cookies['token']

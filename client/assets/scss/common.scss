@@ -57,3 +57,11 @@ a {
   //50% { transform: scale(1.5) }
   100% { transform: scale(0.8); opacity: 0; }
 }
+
+.home_warpper {
+  &.page-enter, &.page-enter-active, &.page-leave-active {
+    animation: both;
+    transition: none;
+    opacity: 1;
+  }
+}

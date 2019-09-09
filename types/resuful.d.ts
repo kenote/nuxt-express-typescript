@@ -1,8 +1,9 @@
 import { Request, Response } from 'express'
-import { IError, IErrorInfo, Maps, KenoteConfig } from 'kenote-config-helper'
+import { IError, IErrorInfo, Maps, KenoteConfig, Navigation } from 'kenote-config-helper'
 import * as jwt from 'jsonwebtoken'
 import * as singlepage from './singlepage'
 import { Dropdown } from './'
+import * as homepage from './homepage'
 
 /**
  * 自定义 Response
@@ -54,6 +55,16 @@ export interface IRequest extends Request, Maps<any> {
    * 页面权限配置
    */
   __flags               : Maps<FlagItem>
+
+  /**
+   * HomePage
+   */
+  __homepage            : Maps<homepage.Page>
+
+  /**
+   * 导航配置
+   */
+  __navigation          : Maps<Navigation[]>
 
 }
 

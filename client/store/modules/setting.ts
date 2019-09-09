@@ -1,9 +1,10 @@
 import { ActionTree, MutationTree, GetterTree, ActionContext } from 'vuex'
-import { Maps, KenoteConfig, Channel } from 'kenote-config-helper'
+import { Maps, KenoteConfig, Channel, Navigation } from 'kenote-config-helper'
 import { RootState } from '../'
 import { Register, FlagItem } from '@/types/resuful'
 import * as singlepage from '@/types/singlepage'
 import { Dropdown } from '@/types'
+import homepage from '@/types/homepage'
 
 export const name: string = 'setting'
 
@@ -15,7 +16,9 @@ export const types = {
   LOADING            : 'LOADING',
   USERENTRANCE       : 'USERENTRANCE',
   CHANNELS           : 'CHANNELS',
-  FLAGES             : 'FLAGES'
+  FLAGES             : 'FLAGES',
+  HOMEPAGE           : 'HOMEPAGE',
+  NAVIGATION         : 'NAVIGATION'
 }
 
 export interface State extends Maps<any> {
@@ -27,6 +30,8 @@ export interface State extends Maps<any> {
   userEntrance       : Dropdown.MenuItem[]
   loading            : Maps<boolean>
   flags              : Maps<FlagItem>
+  homepage           : Maps<homepage.Page>
+  navigation         : Maps<Navigation[]>
 }
 
 export const namespaced: boolean = true
@@ -40,7 +45,9 @@ export const state = (): State => ({
   loading: {
     channel: false
   },
-  flags: {}
+  flags: {},
+  homepage: {},
+  navigation: {}
 })
 
 export const defaultChannel: KenoteConfig.Channel = { id: 0, name: '控制台', label: 'console', navs: [], default: '/' }
@@ -86,7 +93,13 @@ export const mutations: MutationTree<State> = {
   [types.LOADING] (state: State, key: string): void {
     state.loading[key] = true
   },
-  [types.FLAGES](state: State, flags: Maps<FlagItem>): void {
+  [types.FLAGES] (state: State, flags: Maps<FlagItem>): void {
     state.flags = flags
   },
+  [types.HOMEPAGE] (state: State, homepage: Maps<homepage.Page>): void {
+    state.homepage = homepage
+  },
+  [types.NAVIGATION] (state: State, navigation: Maps<Navigation[]>): void {
+    state.navigation = navigation
+  }
 }

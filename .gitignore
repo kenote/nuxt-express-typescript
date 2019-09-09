@@ -45,7 +45,9 @@ channels/**/*
 uploadfiles/
 !README.md
 !README_CN.md
-docs/
+/docs/
+/client/static/
+!/client/static/favicon.ico
 
 # TypeScript v1 declaration files
 typings/

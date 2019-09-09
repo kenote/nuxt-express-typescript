@@ -10,7 +10,7 @@
       >
 
     </console-header>
-    <div class="bodyer" v-bind:style="collapse ? 'left:-245px' : ''">
+    <div class="bodyer" v-bind:style="collapse ? 'left:-250px' : ''">
       <div class="sidebar-nav" v-bind:style="'flex: 0 0 260px'" >
         <div style="height: calc(100% - 24px);overflow-y:auto;" v-loading="loading.channel">
           <template v-for="(channel, key) in channels" >
