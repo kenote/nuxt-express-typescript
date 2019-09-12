@@ -1,5 +1,5 @@
 <template>
-  <home-page :auth="user" :setting="setting" :navigation="navigation['homepage'] || []">
+  <home-page :auth="user" :setting="setting" :navigation="navigation['homepage'] || []" :footer="footer['homepage']">
     <page class="container"  v-bind:class="setting.class">
       <template v-if="sections">
         <homepage-section v-for="(section, key) in sections" 
@@ -43,7 +43,7 @@ const Auth: BindingHelpers = namespace(auth.name)
   },
   mounted () {
     let self: R = this as R
-
+    console.log(self.footer)
   }
 })
 export default class R extends Vue {
@@ -51,9 +51,9 @@ export default class R extends Vue {
   @Auth.State user!: responseUserDocument
   @Setting.State homepage!: Maps<homepage.Page>
   @Setting.State navigation!: Maps<Navigation[]>
+  @Setting.State footer!: Maps<homepage.Footer>
 
   @Provide() setting: homepage.Page = { class: '', header: { style: '' }, bodyer: {} }
-  @Provide() utits: homepage.Utit[] = []
   @Provide() collapse: number = 0
 
   @Provide() sections: homepage.Section[] = []
@@ -76,7 +76,6 @@ export default class R extends Vue {
         return
       }
       this.setting = this.homepage[key] || { class: '', header: { style: '' }, bodyer: {} }
-      this.utits = this.setting.bodyer.utits!
       this.sections = this.setting.bodyer.sections!
     }
   }

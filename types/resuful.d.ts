@@ -66,6 +66,11 @@ export interface IRequest extends Request, Maps<any> {
    */
   __navigation          : Maps<Navigation[]>
 
+  /**
+   * 底部信息
+   */
+  __footer              : Maps<homepage.Footer>
+
 }
 
 /**

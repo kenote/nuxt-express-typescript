@@ -29,6 +29,7 @@ export const actions: Actions<State, RootState> = {
     commit(`${setting.name}/${setting.types.FLAGES}`, req.__flags)
     commit(`${setting.name}/${setting.types.HOMEPAGE}`, req.__homepage)
     commit(`${setting.name}/${setting.types.NAVIGATION}`, req.__navigation)
+    commit(`${setting.name}/${setting.types.FOOTER}`, req.__footer)
     if (req.cookies['token']) {
       let headers: HeaderOptions = {
         token: req.cookies['token']

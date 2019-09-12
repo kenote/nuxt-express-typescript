@@ -8,7 +8,7 @@
     </home-header>
     
     <slot></slot>
-    <home-footer>
+    <home-footer :data="footer">
 
     </home-footer>
   </div>
@@ -72,6 +72,7 @@ export default class R extends Vue {
   @Prop({ default: undefined }) homepage!: Maps<homepage.Page>
   @Prop({ default: undefined }) setting!: homepage.Page
   @Prop({ default: [] }) navigation!: Navigation[]
+  @Prop({ default: undefined }) footer!: homepage.Footer
 
   /*@Provide() setting: homepage.Page = { header: { style: '' }, bodyer: {} }
 

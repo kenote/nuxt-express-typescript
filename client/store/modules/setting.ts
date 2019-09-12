@@ -18,7 +18,8 @@ export const types = {
   CHANNELS           : 'CHANNELS',
   FLAGES             : 'FLAGES',
   HOMEPAGE           : 'HOMEPAGE',
-  NAVIGATION         : 'NAVIGATION'
+  NAVIGATION         : 'NAVIGATION',
+  FOOTER             : 'FOOTER'
 }
 
 export interface State extends Maps<any> {
@@ -32,6 +33,7 @@ export interface State extends Maps<any> {
   flags              : Maps<FlagItem>
   homepage           : Maps<homepage.Page>
   navigation         : Maps<Navigation[]>
+  footer             : Maps<homepage.Footer>
 }
 
 export const namespaced: boolean = true
@@ -47,7 +49,8 @@ export const state = (): State => ({
   },
   flags: {},
   homepage: {},
-  navigation: {}
+  navigation: {},
+  footer: {}
 })
 
 export const defaultChannel: KenoteConfig.Channel = { id: 0, name: '控制台', label: 'console', navs: [], default: '/' }
@@ -101,5 +104,8 @@ export const mutations: MutationTree<State> = {
   },
   [types.NAVIGATION] (state: State, navigation: Maps<Navigation[]>): void {
     state.navigation = navigation
+  },
+  [types.FOOTER] (state: State, footer: Maps<homepage.Footer>): void {
+    state.footer = footer
   }
 }

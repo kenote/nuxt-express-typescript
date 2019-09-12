@@ -105,63 +105,40 @@ declare namespace homepage {
   interface Bodyer {
 
     /**
-     * 普通信息
+     * 内容块
      */
-    utits              ?: Utit[]
-
     sections           ?: Section[]
   }
 
   /**
-   * 普通信息
+   * 底部设置
    */
-  interface Utit {
-    type                : string
-    title               : string
-    icon               ?: string
-    content             : string | string[] | Utit[] | JoinItem[] | ContactUtit[] | string[][]
-    groups             ?: JoinUtit[] | LinkUtit[] | CardUtit[] | Utit[]
-    mailto             ?: string
-    button             ?: string[]
-  }
+  interface Footer {
 
-  interface ContactUtit {
-    type                : string
-    title               : string
-    amap                : Maps<any>
-    content             : KeyMap<string>
-  }
+    /**
+     * 版权信息
+     */
+    copyright          ?: string
 
-  interface LinkUtit {
-    title               : string
-    link               ?: string
-    logo               ?: string
-  }
+    /**
+     * 备案信息；[ 链接名称 链接地址, 打开目标, 图标 ]
+     */
+    icps               ?: string[][]
 
-  interface CardUtit {
-    title               : string
-    content             : string
-    icon                : string
-    button             ?: string[]
-  }
+    /**
+     * 网站描述
+     */
+    description        ?: string
 
-  /**
-   * 招聘信息组
-   */
-  interface JoinUtit {
-    title               : string
-    content             : JoinItem[]
-  }
+    /**
+     * 导航菜单
+     */
+    navigation         ?: GroupItem[]
 
-  /**
-   * 招聘信息模型
-   */
-  interface JoinItem {
-    title               : string
-    location            : string
-    description         : string[]
-    requirements        : string[]
-    priority           ?: string[]
+    /**
+     * 支持信息
+     */
+    support            ?: Maps<GroupItem[]>
   }
 
   /**
@@ -233,7 +210,7 @@ declare namespace homepage {
     content            ?: string | string[]
 
     /**
-     * 
+     * 群组数据
      */
     groups             ?: GroupItem[]
 
@@ -248,6 +225,9 @@ declare namespace homepage {
     link               ?: string[]
   }
 
+  /**
+   * 群组数据单元
+   */
   interface GroupItem {
 
     /**

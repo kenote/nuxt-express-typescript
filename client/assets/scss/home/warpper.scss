@@ -21,12 +21,13 @@
       color: #fff;
       font-size: 14px;
       min-width: 1200px;
+      font-family: PingFang SC,Helvetica Neue,Helvetica,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;
 
       .container {
         width: 1170px!important;
         padding: 0!important;
         margin: 0 auto;
-        display: flex;
+        display: table;
 
         &::before, &::after {
           display: table;
@@ -77,6 +78,97 @@
             display: inline;
           }
         }
+
+        .links {
+          width: 40.67797%;
+          float: right;
+          margin-right: 0;
+          padding-left: 5.08475%;
+          margin-top: 38px;
+
+          .iconfont {
+            width: 32px;
+            height: 32px;
+            display: inline-flex;
+            background: #a1a1a1;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #484646;
+            margin-right: 40px;
+            position: relative;
+
+            .qrcode {
+              display: none;
+              position: absolute;
+              width: 92px;
+              height: 92px;
+              bottom: 42px;
+              left: -28px;
+              text-align: center;
+              background-color: #fff;
+              transition: all .5s ;
+
+              .triangle-down {
+                position: absolute;
+                bottom: -8px;
+                left: 50%;
+                margin-left: -6px;
+                width: 0;
+                height: 0;
+                border-top: 10px solid #fff;
+                border-left: 6px solid transparent;
+                border-right: 6px solid transparent;
+              }
+            }
+
+            &::before {
+              position: absolute;
+            }
+
+            &.icon-WeChat-LC {
+              font-size: 20px;
+
+              &::before {
+                top: 2px;
+              }
+
+              &:hover {
+                background: #88cb39;
+
+                .qrcode {
+                  display: block;
+                }
+              }
+            }
+
+            &.icon-weibo {
+
+              &:hover {
+                background: #f56f59;
+              }
+            }
+
+            &.icon-github {
+              font-size: 27px;
+
+              &::before {
+                top: 0px;
+              }
+
+              &:hover {
+                background: #46a4ed;
+              }
+            }
+
+            &.icon-segmentfault {
+              &:hover {
+                background: #23a874;
+              }
+            }
+          }
+        }
       }
 
 
@@ -94,10 +186,20 @@
       .icp {
         text-align: center;
         color: hsla(0,0%,100%,.7);
-        margin-top: 15px;
-        font-size: 14px;
+        padding-top: 25px;
+        font-size: 12px;
         padding-bottom: 29px;
         line-height: 25px;
+
+        p {
+          margin: 8px 0;
+        }
+
+        img {
+          position: relative;
+          top: 5px;
+          margin: 0 7px;
+        }
       }
 
 
@@ -116,7 +218,16 @@
     @media (max-width: 640px) {
 
       .layout-footer {
-        display: none;
+        min-width: auto;
+
+        .container, .line {
+          display: none;
+        }
+        //
+        .icp p {
+          line-height: 1.5;
+          padding: 0 15px;
+        }
       }
 
       .layout-footer-mobile {

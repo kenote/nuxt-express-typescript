@@ -1,5 +1,5 @@
 <template>
-  <section :class="className" :style="background">
+  <section :class="className" :style="background && background.style">
     <template v-if="container">
       <!-- 文字简介 -->
       <template v-if="container.type === 'none'">
