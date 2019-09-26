@@ -23,6 +23,8 @@ import {
   Radio,
   RadioGroup,
   Row, 
+  Step,
+  Steps,
   Submenu,
   Tabs,
   TabPane,
@@ -57,6 +59,8 @@ export default () => {
   Vue.use(Radio)
   Vue.use(RadioGroup)
   Vue.use(Row)
+  Vue.use(Step)
+  Vue.use(Steps)
   Vue.use(Submenu)
   Vue.use(Tabs)
   Vue.use(TabPane)

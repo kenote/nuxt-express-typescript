@@ -85,6 +85,51 @@
       //left: 50%;
       //transform: translateX(-50%);
 
+      .verify-result-box {
+        text-align: center;
+        margin: 40px 0;
+
+        &.success {
+          i {
+            color: #229bcd;
+          }
+        }
+    
+        &.warning {
+          i {
+            color: #e6a23c;
+          }
+        }
+    
+        &.error {
+          i {
+            color: #ff5742;
+          }
+        }
+
+        &>i {
+          font-size: 100px;
+        }
+
+        .verify-result-content {
+          margin-top: 30px;
+
+          h1 {
+            font-size: 28px;
+            margin: 20px 0;
+            color: #5b6b72;
+          }
+
+          a {
+            font-size: 18px;
+            padding-bottom: 2px;
+            border-bottom: 1px solid #229bcd;
+            color: #229bcd;
+            font-weight: 700;
+          }
+        }
+      }
+
       .landing-activity {
         margin: 0 auto;
         width: 480px;

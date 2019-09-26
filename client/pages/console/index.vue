@@ -13,7 +13,7 @@ import * as auth from '~/store/modules/auth'
 const Setting: BindingHelpers = namespace(setting.name)
 
 @Component({
-  layout: 'dashboard',
+  layout: 'console',
   middleware: ['authenticated'],
   mounted () {
     

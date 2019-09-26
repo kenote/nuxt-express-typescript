@@ -84,6 +84,12 @@ class UserProxy {
     return result
   }
 
+  public async setPassword (conditions: any, doc: passport.setPassword): Promise<UpdateWriteResult> {
+    let { hash: encrypt, salt } = bcrypt.hash(doc.password || '')
+    let result: UpdateWriteResult = await this.Dao.updateOne(conditions, { encrypt, salt })
+    return result
+  }
+
 }
 
 export default new UserProxy()

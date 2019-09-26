@@ -1,5 +1,5 @@
 <template>
-  <error-page v-if="selectedChannel.id === 9999" />
+  <error-page v-if="selectedChannel.id === 0 && $route.path !== '/console'" />
   <div class="console_warpper" v-else>
     <console-header
       :auth="user"
@@ -11,7 +11,7 @@
 
     </console-header>
     <div class="bodyer" v-bind:style="collapse ? 'left:-250px' : ''">
-      <div class="sidebar-nav" v-bind:style="'flex: 0 0 260px'" >
+      <div class="sidebar-nav" v-bind:style="'flex: 0 0 260px'" v-if="$route.path !== '/console'">
         <div style="height: calc(100% - 24px);overflow-y:auto;" v-loading="loading.channel">
           <template v-for="(channel, key) in channels" >
             <el-collapse-transition :key="key" v-if="channel.id === selectedChannel.id">

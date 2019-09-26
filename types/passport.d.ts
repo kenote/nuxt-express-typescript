@@ -76,6 +76,26 @@ declare namespace passport {
     password      ?: string
     name          ?: string
   }
+
+  interface sendCode {
+    name          ?: string
+    verify_id     ?: string
+  }
+
+  interface sendCodeDocument {
+    document       : sendCode
+    setting        : Register.Config
+  }
+
+  interface setPassword {
+    password    ?: string
+    verify_id   ?: string
+  }
+
+  interface setPasswordDocument {
+    document       : setPassword
+    setting        : Register.Config
+  }
 }
 
 export = passport

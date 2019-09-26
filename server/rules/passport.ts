@@ -36,6 +36,13 @@ export const rules: Maps<Rule[]> = {
       code         : __ErrorCode.ERROR_VALID_PASSWORD_REQUIRED
     }
   ],
+  verify_id: [
+    {
+      required : true,
+      message  : __ErrorMessage.ERROR_VERIFY_ID_REQUIRED,
+      code     : __ErrorCode.ERROR_VERIFY_ID_REQUIRED
+    }
+  ],
   code: [
     {
       required     : true,

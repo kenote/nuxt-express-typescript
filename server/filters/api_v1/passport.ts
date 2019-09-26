@@ -112,8 +112,7 @@ class Passport {
       }
     }
     let setting: Register.Config = loadData('data/register') as Register.Config
-
-    return next({ setting, warnings, body: { type, token, id } })
+    return next({ setting, warnings, document: { type, token, id } })
   }
 
   /**

@@ -92,6 +92,11 @@ export default async function backupDeploy (): Promise<any> {
       let dbname: string = pathname.replace(/^(\/)/i, '')
       await runscript(`mongodump -h 127.0.0.1 --port ${port} -d ${dbname} -o ${rootDir}/mongodb/`)
     }
+    // 4、备份 上传文件目录 /uploadfiles/
+    let uploadDir: string = path.resolve(rootDir, 'uploadfiles')
+    if (fs.existsSync(path.resolve(process.cwd(), 'uploadfiles'))) {
+      fs.copySync(path.resolve(process.cwd(), 'uploadfiles'), uploadDir)
+    }
     return await TaskSpinner(Promise.resolve(`Backup Finished.`))
   } catch (error) {
     console.log(``)

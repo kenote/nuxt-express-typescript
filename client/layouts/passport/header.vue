@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="header_mobile">
-        <span>登录</span>
+        <span>{{ title }}</span>
       </div>
       <slot />
     </div>
@@ -38,5 +38,6 @@ import { responseDocument as responseUserDocument } from '@/types/proxys/user'
 export default class  extends Vue {
 
   @Prop({ default: null }) auth!: responseUserDocument
+  @Prop({ default: undefined }) title!: string
 }
 </script>

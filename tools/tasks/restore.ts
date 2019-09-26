@@ -76,6 +76,14 @@ export default async function restoreDeploy (): Promise<any> {
       let dbname: string = pathname.replace(/^(\/)/i, '')
       await runscript(`mongorestore -h 127.0.0.1 --port ${port} -d ${dbname} --drop ${rootDir}/mongodb/${dbname}`)
     }
+    // 4、还原 上传文件目录 /uploadfiles/
+    let uploadDir: string = path.resolve(process.cwd(), 'uploadfiles')
+    if (fs.existsSync(uploadDir)) {
+      fs.removeSync(uploadDir)
+    }
+    if (fs.existsSync(path.resolve(rootDir, 'uploadfiles'))) {
+      fs.copySync(path.resolve(rootDir, 'uploadfiles'), uploadDir)
+    }
     return await TaskSpinner(Promise.resolve(`Restore Finished.`))
   } catch (error) {
     console.log(``)

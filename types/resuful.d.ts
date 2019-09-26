@@ -124,6 +124,16 @@ export declare namespace Register {
      * 找回密码
      */
     lost_pass    : LostPass
+
+    /**
+     * 页面标题
+     */
+    page_title   : Maps<string>
+
+    /**
+     * 安全中心概观
+     */
+    security     : Security.Overview[]
   }
 
   /**
@@ -163,6 +173,122 @@ export interface resufulInfo {
    * 错误信息
    */
   Status       : IErrorInfo
+}
+
+/**
+ * 安全中心
+ */
+export declare namespace Security {
+
+  /**
+   * 状态类型
+   */
+  type statusType = 'success' | 'warning' | 'info'
+
+  /**
+   * 状态图标
+   */
+  type statusIcon = 'el-icon-success success' | 'el-icon-warning warning' | 'el-icon-info info'
+
+  /**
+   * 视图类型
+   */
+  type viewType = 'password' | 'email' | 'mobile' | 'overview'
+
+  /**
+   * 概观单元
+   */
+  interface Overview {
+
+    /**
+     * Key
+     */
+    key         : string
+
+    /**
+     * 状态类型
+     */
+    type        : statusType
+
+    /**
+     * 名称
+     */
+    name        : string
+
+    /**
+     * 状态图标
+     */
+    icon        : statusIcon
+
+    /**
+     * 概观数据
+     */
+    data       ?: OverviewData
+
+    /**
+     * 描述
+     */
+    description : string | string[] | Description
+
+    click      ?: () => void
+  }
+  
+  /**
+   * 描述
+   */
+  interface Description {
+
+    /**
+     * 标题
+     */
+    title       : string
+
+    /**
+     * 内容
+     */
+    content     : string[]
+  }
+
+  /**
+   * 概观数据
+   */
+  interface OverviewData {
+
+    /**
+     * 名称
+     */
+    name        : string
+
+    /**
+     * 值
+     */
+    value      ?: string
+
+    /**
+     * 格式化
+     */
+    format     ?: Array<string | RegExp>
+  }
+
+  interface sendCode {
+    type        : 'email' | 'mobile'
+    name       ?: string
+    verify_id  ?: string
+  }
+
+  interface verifyCode {
+    code        : string
+  }
+
+  interface setEmail {
+    email      ?: string
+    code       ?: string
+  }
+
+  interface setMobile {
+    mobile     ?: string
+    code       ?: string
+  }
 }
 
 /**

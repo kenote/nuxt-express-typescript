@@ -1,22 +1,8 @@
 <template>
   <page>
     <breadcrumb :channel="selectedChannel" :route="$route" />
-    <div class="form-container">
-      <el-form ref="theForm" label-suffix=":" label-width="150px">
-        <h2>基本信息</h2>
-        <div class="el-form">
-          <el-form-item label="用户名">
-            <span>{{ user.username }}</span>
-          </el-form-item>
-          <el-form-item label="用户类型">
-            <span>{{ user.group.name }}</span>
-          </el-form-item>
-        </div>
-        <el-form-item >
-          <el-button type="primary" native-type="submit" disabled="disabled">保 存</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+    
+    <div ></div>
   </page>
 </template>
 
@@ -38,8 +24,12 @@ const Auth: BindingHelpers = namespace(auth.name)
   components: {
     
   },
+  created () {
+    let self: R = this as R
+  },
   mounted () {
     let self: R = this as R
+    // console.log(self.selectedChannel)
   }
 })
 export default class R extends Vue {
