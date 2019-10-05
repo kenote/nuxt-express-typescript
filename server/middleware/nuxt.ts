@@ -15,7 +15,6 @@ export function nuxtHandler (req: IRequest, res: IResponse, next: NextFunction):
     req.__channels = loadData('data/channels', 'array') as KenoteConfig.Channel[]
     req.__flags = loadData('data/flags') as Maps<FlagItem>
     req.__homepage = loadData('data/homepage') as Maps<homepage.Page>
-    // console.log(req.__homepage)
     req.__navigation = loadData('data/navigation') as Maps<Navigation[]>
     req.__footer = loadData('data/footer') as Maps<homepage.Footer>
   }

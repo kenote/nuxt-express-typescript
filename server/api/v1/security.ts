@@ -16,6 +16,7 @@ import { Register } from '@/types/resuful'
 import * as IPassport from '@/types/passport'
 import { DYSMS } from '@/utils/sms'
 import userProxy from '~/proxys/user'
+import { UpdateWriteResult } from 'kenote-mongoose-helper'
 
 const { language, site_name } = config
 const { ErrorInfo, CustomError, __ErrorCode } = loadError(language)
@@ -96,7 +97,7 @@ export default class Security extends Controller {
         let title: string = verify_id ? '邮箱校验' : '帐号身份校验'
         let mail: Mail.Options = {
           from: `${site_name} <${oc(mailer).__SmtpOptions.auth.user('')}>`,
-          to: `${user.username} <${user.email}>`,
+          to: `${user.username} <${verify_id ? name : user.email}>`,
           subject: `${site_name}${title}`
         }
         let context: MailerContext.sendCode = {
@@ -109,7 +110,7 @@ export default class Security extends Controller {
         mailer.sendMail('send_code.mjml', mail, context)
       }
       else if (type === 'mobile') {
-        await new DYSMS(config.options!.sms! || '').send(user.mobile!, verify_id ? 'setinfos' : 'verifyid', { code: verify.token })
+        await new DYSMS(config.options!.sms! || '').send(verify_id ? name! : user.mobile!, verify_id ? 'setinfos' : 'verifyid', { code: verify.token })
       }
       return res.api({ result: true })
     } catch (error) {
@@ -169,7 +170,105 @@ export default class Security extends Controller {
       if (difftime > timeout) {
         return res.api(null, __ErrorCode.ERROR_VERIFY_ID_TIMEOUT)
       }
-      let result = await userProxy.setPassword({ _id: user._id }, document)
+      let result: UpdateWriteResult = await userProxy.setPassword({ _id: user._id }, document)
+      await verifyProxy.Dao.remove({ _id: verify._id })
+      return res.api(result)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
+    }
+  }
+
+  /**
+   * 验证名称是否占用
+   * @param name  <String> 用户名 | 电子邮箱 | 手机号
+   */
+  @Router({ method: 'put', path: '/check/:type(username|email|mobile)'})
+  @Filter( authenticate )
+  public async check (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { type } = req.params
+    let { name } = req.body
+    let auth: responseUserDocument = req.user as responseUserDocument
+    let warnings: IPassport.CheckWarning = {
+      username  : __ErrorCode.ERROR_VALID_USERNAME_UNIQUE,
+      email     : __ErrorCode.ERROR_VALID_USERNAME_UNIQUE,
+      mobile    : __ErrorCode.ERROR_VALID_MOBILE_UNIQUE
+    }
+    try {
+      let user: responseUserDocument = await userProxy.Dao.findOne({ [type]: { $eq: name, $ne: auth[type] } }) as responseUserDocument
+      return res.api(!user, user ? warnings[type] : null)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
+    }
+  }
+
+  /**
+   * 设置邮箱
+   * @param email  <String> 新邮箱
+   * @param code  <String> 邮箱验证码
+   * @param verify_id  <String> 身份验证 ID
+   */
+  @Router({ method: 'post', path: '/setemail' })
+  @Filter( authenticate, securityFillter.setEmail )
+  public async setEmail (setEmail: IPassport.setDocument<IPassport.setEmail>, req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { document, setting } = setEmail
+    let { email, verify_id, code } = document
+    let user: responseUserDocument = req.user as responseUserDocument
+    try {
+      let verify: responseVerifyDocument = await verifyProxy.Dao.findOne({ type: 'code', user: user._id, _id: verify_id }) as responseVerifyDocument
+      if (!verify) {
+        return res.api(null, __ErrorCode.ERROR_VERIFY_ID_FAILED)
+      }
+      let difftime: number = Date.now() - verify.create_at.getTime()
+      let timeout: number = Number(setting.lost_pass.timeout) * 1000
+      if (difftime > timeout) {
+        return res.api(null, __ErrorCode.ERROR_VERIFY_ID_TIMEOUT)
+      }
+      if (verify.token !== code) {
+        return res.api(null, __ErrorCode.ERROR_VERIFY_CODE_FAILED)
+      }
+      let result: UpdateWriteResult = await userProxy.Dao.updateOne({ _id: user._id }, { email, binds: Array.from(new Set([ ...user.binds, 'email' ])) })
+      await verifyProxy.Dao.remove({ _id: verify._id })
+      return res.api(result)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
+    }
+  }
+
+  /**
+   * 设置手机
+   * @param mobile  <String> 新手机
+   * @param code  <String> 手机验证码
+   * @param verify_id  <String> 身份验证 ID
+   */
+  @Router({ method: 'post', path: '/setmobile' })
+  @Filter( authenticate, securityFillter.setMobile )
+  public async setMobile (setMobile: IPassport.setDocument<IPassport.setMobile>, req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { document, setting } = setMobile
+    let { mobile, verify_id, code } = document
+    let user: responseUserDocument = req.user as responseUserDocument
+    try {
+      let verify: responseVerifyDocument = await verifyProxy.Dao.findOne({ type: 'code', user: user._id, _id: verify_id }) as responseVerifyDocument
+      if (!verify) {
+        return res.api(null, __ErrorCode.ERROR_VERIFY_ID_FAILED)
+      }
+      let difftime: number = Date.now() - verify.create_at.getTime()
+      let timeout: number = Number(setting.lost_pass.timeout) * 1000
+      if (difftime > timeout) {
+        return res.api(null, __ErrorCode.ERROR_VERIFY_ID_TIMEOUT)
+      }
+      if (verify.token !== code) {
+        return res.api(null, __ErrorCode.ERROR_VERIFY_CODE_FAILED)
+      }
+      let result: UpdateWriteResult = await userProxy.Dao.updateOne({ _id: user._id }, { mobile, binds: Array.from(new Set([ ...user.binds, 'mobile' ])) })
       await verifyProxy.Dao.remove({ _id: verify._id })
       return res.api(result)
     } catch (error) {

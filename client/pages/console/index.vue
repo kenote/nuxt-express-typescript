@@ -22,7 +22,6 @@ const Setting: BindingHelpers = namespace(setting.name)
 export default class R extends Vue {
 
   @Setting.Getter selectedChannel
-  @Setting.Getter channelStore
   
 }
 </script>

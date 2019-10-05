@@ -47,7 +47,6 @@ export default class R extends Vue {
   @Setting.State userEntrance!: Dropdown.MenuItem[]
   @Setting.Action selectChannel!: (id: number) => void
   @Setting.Getter selectedChannel!: KenoteConfig.Channel
-  @Setting.Getter channelStore
 
   handleSelectChannel (value: number): void {
     if (this.selectedChannel.id === value) return

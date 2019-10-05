@@ -88,12 +88,29 @@ declare namespace passport {
   }
 
   interface setPassword {
-    password    ?: string
-    verify_id   ?: string
+    password      ?: string
+    verify_id     ?: string
   }
 
   interface setPasswordDocument {
     document       : setPassword
+    setting        : Register.Config
+  }
+
+  interface setEmail {
+    email         ?: string
+    verify_id     ?: string
+    code          ?: string
+  }
+
+  interface setMobile {
+    mobile        ?: string
+    verify_id     ?: string
+    code          ?: string
+  }
+
+  interface setDocument<T> {
+    document       : T
     setting        : Register.Config
   }
 }

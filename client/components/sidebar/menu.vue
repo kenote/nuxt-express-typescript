@@ -23,7 +23,7 @@ import { Component, Vue, Prop, Provide } from 'nuxt-property-decorator'
 import { Sidebar } from '@/types'
 import sidebarMenuItem from './menu-item.vue'
 import { responseDocument as responseUserDocument } from '@/types/proxys/user'
-import { Navigation, accessNavs } from 'kenote-config-helper'
+import { Navigation } from 'kenote-config-helper'
 import { map } from 'lodash'
 
 @Component({
@@ -56,8 +56,22 @@ export default class R extends Vue {
     if (group.level < 9000) {
       iaccess = (access || []).length > 0 ? access : Array.from(new Set(map(teams, 'access').toString().split(',')))
     }
-    this.navs = accessNavs(this.sidebar, iaccess!)
+    this.navs = accessNavs(this.sidebar, iaccess)
   }
 
+}
+
+function accessNavs (navs: Navigation[], access?: string[]): Navigation[] {
+  for (let nav of navs) {
+    if (nav.children) {
+      nav.children = accessNavs(nav.children, access)
+    }
+    else {
+      if (!nav.disabled) {
+        nav.disabled = access && access.includes(nav.index)
+      }
+    }
+  }
+  return navs
 }
 </script>

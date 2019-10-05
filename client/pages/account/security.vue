@@ -18,8 +18,8 @@
         </div>
       </div>
     </div>
-    <transition name="el-zoom-in-top" v-else>
-      <security-password v-if="viewtype === 'password'"
+    <transition-group name="el-zoom-in-top" v-else>
+      <security-password v-if="viewtype === 'password'" key="password"
         @close="handleClose"
         @sendcode="handleSendcode"
         @verifycode="handleVerifycode"
@@ -31,7 +31,33 @@
         :loading="loading"
         @submit="handleSubmitPassword"
         />
-      <div v-else class="security-container">
+      <security-email v-else-if="viewtype === 'email'" key="email"
+        @close="handleClose"
+        @sendcode="handleSendcode"
+        @verifycode="handleVerifycode"
+        :active="active"
+        :user="user"
+        :step="register.lost_pass.timeeout"
+        :timeeout="register.mailphone_step"
+        :times="times"
+        :loading="loading"
+        :unique="handleUnique"
+        @submit="handleSubmitEmail"
+        />
+      <security-mobile v-else-if="viewtype === 'mobile'" key="mobile"
+        @close="handleClose"
+        @sendcode="handleSendcode"
+        @verifycode="handleVerifycode"
+        :active="active"
+        :user="user"
+        :step="register.lost_pass.timeeout"
+        :timeeout="register.mailphone_step"
+        :times="times"
+        :loading="loading"
+        :unique="handleUnique"
+        @submit="handleSubmitMobile"
+        />
+      <div v-else class="security-container" key="overview">
         <div class="panel" v-for="(item, key) in overview" :key="key">
           <div class="panel-body">
              <div class="panel-content">
@@ -39,7 +65,7 @@
                 {{ item.name }}
                 <i :class="item.icon" />
               </h4>
-              <p v-if="item.data">{{ item.data.name }}：{{ format(item.data.value, item.data.format) }}</p>
+              <p v-if="item.data">{{ item.data.name }}：{{ format(item) }}</p>
               <p v-if="isString(item.description)">{{ item.description }}</p>
               <template v-else-if="isArray(item.description)">
                 <p v-for="(p, k) in item.description" :key="k">{{ p }}</p>
@@ -59,7 +85,7 @@
           </div>
         </div>
       </div>
-    </transition>
+    </transition-group>
   </page>
 </template>
 
@@ -74,6 +100,8 @@ import { HeaderOptions, resufulInfo, Register, Security } from '@/types/resuful'
 import httpClient from '@/utils/http'
 import { clone, isString, isArray, isObject } from 'lodash'
 import securityPassword from '~/components/security/password.vue'
+import securityEmail from '~/components/security/email.vue'
+import securityMobile from '~/components/security/mobile.vue'
 
 const Setting: BindingHelpers = namespace(setting.name)
 const Auth: BindingHelpers = namespace(auth.name)
@@ -82,7 +110,9 @@ const Auth: BindingHelpers = namespace(auth.name)
   layout: 'console',
   middleware: ['authenticated'],
   components: {
-    securityPassword
+    securityPassword,
+    securityEmail,
+    securityMobile
   },
   created () {
     let self: R = this as R
@@ -127,11 +157,12 @@ export default class R extends Vue {
   /**
    * 格式化字符串
    */
-  format (value: string, options: Array<string | RegExp>): string {
-    if (!value)  return '--'
-    if (!options) return value
-    let [ searchValue, replaceValue ] = options
-    return value.replace(searchValue, replaceValue as string)
+  format (data: Security.Overview): string {
+    let item: Security.Overview = this.register.security.find( o => o.key === data.key )!
+    if (!data.data!.value)  return '--'
+    if (!item.data!.format) return data.data!.value!
+    let [ searchValue, replaceValue ] = item.data!.format
+    return data.data!.value!.replace(searchValue, replaceValue as string)
   }
 
   /**
@@ -223,6 +254,83 @@ export default class R extends Vue {
   }
 
   /**
+   * 验证名称是否占用
+   */
+  async handleUnique (type: 'username' | 'email' | 'mobile', value: string): Promise<boolean | undefined> {
+    try {
+      let options: HeaderOptions = {
+        token: this.token
+      }
+      let result: resufulInfo = await httpClient.put(`/api/v1/security/check/${type}`, { name: value }, options)
+      return result.data as boolean
+    } catch (error) {
+      this.$message.warning(error.message)
+    }
+  }
+
+  /**
+   * 设置邮箱
+   */
+  handleSubmitEmail (values: Security.setEmail): void {
+    this.loading = true
+    setTimeout(async (): Promise<void> => {
+      try {
+        let options: HeaderOptions = {
+          token: this.token
+        }
+        let result: resufulInfo = await httpClient.post(`/api/v1/security/setemail`, { ...values, verify_id: this.verify_id }, options)
+        this.loading = false
+        if (result.Status.code === 0) {
+          this.$store.commit(`${auth.name}/${auth.types.EMAIL}`, values.email)
+          let user = { 
+            ...this.user,
+            email: values.email,
+            binds: Array.from(new Set([ ...this.user.binds, 'email' ]))
+          }
+          this.updateSecurity(user as responseUserDocument)
+          this.active = 3
+          return
+        }
+        this.$message.warning(result.Status.message!)
+      } catch (error) {
+        this.loading = false
+        this.$message.warning(error.message)
+      }
+    }, 300)
+  }
+
+  /**
+   * 设置手机
+   */
+  handleSubmitMobile (values: Security.setMobile): void {
+    this.loading = true
+    setTimeout(async (): Promise<void> => {
+      try {
+        let options: HeaderOptions = {
+          token: this.token
+        }
+        let result: resufulInfo = await httpClient.post(`/api/v1/security/setmobile`, { ...values, verify_id: this.verify_id }, options)
+        this.loading = false
+        if (result.Status.code === 0) {
+          this.$store.commit(`${auth.name}/${auth.types.MOBILE}`, values.mobile)
+          let user = { 
+            ...this.user,
+            mobile: values.mobile,
+            binds: Array.from(new Set([ ...this.user.binds, 'mobile' ]))
+          }
+          this.updateSecurity(user as responseUserDocument)
+          this.active = 3
+          return
+        }
+        this.$message.warning(result.Status.message!)
+      } catch (error) {
+        this.loading = false
+        this.$message.warning(error.message)
+      }
+    }, 300)
+  }
+
+  /**
    * 等待 CD 时间
    */
   mailPhoneStep (): void {
@@ -286,6 +394,9 @@ export default class R extends Vue {
   
 }
 
+/**
+ * 更新视图单元
+ */
 function updateOverviewItem (item: Security.Overview, key: string, user: responseUserDocument): void {
   if (item.key === key && item.data) {
     item.data.value = user[key]

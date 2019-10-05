@@ -70,6 +70,68 @@ class Security {
       return res.api(null, error)
     }
   }
+
+  /**
+   * 设置邮箱
+   */
+  public async setEmail (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { email, verify_id, code } = req.body
+    let setting: Register.Config = loadData('data/register') as Register.Config
+    let filters: Filter[] = [
+      {
+        key    : 'email',
+        rules  : [ ...rules.email, ...formatRules.email ],
+        value  : email
+      },
+      {
+        key    : 'verify_id',
+        rules  : rules.verify_id,
+        value  : verify_id
+      },
+      {
+        key    : 'code',
+        rules  : rules.code,
+        value  : code
+      }
+    ]
+    try {
+      let document: passport.setEmail = await asyncFilterData(filters) as passport.setEmail
+      return next({ document, setting })
+    } catch (error) {
+      return res.api(null, error)
+    }
+  }
+
+  /**
+   * 设置手机
+   */
+  public async setMobile (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { mobile, verify_id, code } = req.body
+    let setting: Register.Config = loadData('data/register') as Register.Config
+    let filters: Filter[] = [
+      {
+        key    : 'mobile',
+        rules  : [ ...rules.mobile, ...formatRules.mobile ],
+        value  : mobile
+      },
+      {
+        key    : 'verify_id',
+        rules  : rules.verify_id,
+        value  : verify_id
+      },
+      {
+        key    : 'code',
+        rules  : rules.code,
+        value  : code
+      }
+    ]
+    try {
+      let document: passport.setMobile = await asyncFilterData(filters) as passport.setMobile
+      return next({ document, setting })
+    } catch (error) {
+      return res.api(null, error)
+    }
+  }
 }
 
 export default new Security()
