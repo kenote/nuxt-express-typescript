@@ -11,6 +11,7 @@ export type ErrorCode = {
   ERROR_NOT_FOUND_CHANNEL          : number
   ERROR_NOT_FOUND_API              : number
   ERROR_NOT_FOUND_ACCESSKEY        : number
+  ERROR_ONLY_ADVANCED_ADMIN        : number
 
   ERROR_UPLOAD_FILE_MIMETYPE       : number
   ERROR_UPLOAD_FILESIZE_LARGEMAX   : number

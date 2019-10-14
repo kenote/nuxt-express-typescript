@@ -6,9 +6,12 @@ import {
   Button, 
   Carousel, 
   CarouselItem,
+  Checkbox,
+  CheckboxGroup,
   Col,
   Collapse,
   CollapseItem,
+  Dialog,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -16,16 +19,22 @@ import {
   FormItem, 
   Icon,
   Input, 
+  InputNumber,
   Loading, 
   Menu,
   MenuItem,
   Message, 
+  MessageBox,
+  Option,
   Radio,
   RadioGroup,
   Row, 
+  Select,
   Step,
   Steps,
   Submenu,
+  Table,
+  TableColumn,
   Tabs,
   TabPane,
   Timeline,
@@ -43,9 +52,12 @@ export default () => {
   Vue.use(Button)
   Vue.use(Carousel)
   Vue.use(CarouselItem)
+  Vue.use(Checkbox)
+  Vue.use(CheckboxGroup)
   Vue.use(Col)
   Vue.use(Collapse)
   Vue.use(CollapseItem)
+  Vue.use(Dialog)
   Vue.use(Dropdown)
   Vue.use(DropdownItem)
   Vue.use(DropdownMenu)
@@ -53,15 +65,20 @@ export default () => {
   Vue.use(FormItem)
   Vue.use(Icon)
   Vue.use(Input)
+  Vue.use(InputNumber)
   Vue.use(Loading)
   Vue.use(Menu)
   Vue.use(MenuItem)
+  Vue.use(Option)
   Vue.use(Radio)
   Vue.use(RadioGroup)
   Vue.use(Row)
+  Vue.use(Select)
   Vue.use(Step)
   Vue.use(Steps)
   Vue.use(Submenu)
+  Vue.use(Table)
+  Vue.use(TableColumn)
   Vue.use(Tabs)
   Vue.use(TabPane)
   Vue.use(Timeline)
@@ -69,4 +86,9 @@ export default () => {
   Vue.use(VueAMap)
   Vue.component(CollapseTransition.name, CollapseTransition)
   Vue.prototype.$message = Message
+  Vue.prototype.$msgbox = MessageBox
+  Vue.prototype.$alert = MessageBox.alert
+  Vue.prototype.$confirm = MessageBox.confirm
+  Vue.prototype.$prompt = MessageBox.prompt
+  Vue.prototype.$loading = Loading.service
 }

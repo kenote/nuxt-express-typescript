@@ -22,3 +22,17 @@ export interface responseDocument extends mongoose.Document {
   store        : responseStoreDocument
   default      : boolean
 }
+
+export interface editDocument {
+  conditions   : any
+  data         : createDocument
+}
+
+export interface removeDocument {
+  conditions   : any
+  options      : removeOptions
+}
+
+export interface removeOptions {
+  move        ?: string
+}

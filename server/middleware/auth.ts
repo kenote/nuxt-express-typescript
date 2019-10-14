@@ -1,4 +1,5 @@
-import { Request } from 'express'
+import { Request, NextFunction } from 'express'
+import { IResponse } from '@/types/resuful'
 import * as passportJWT from 'passport-jwt'
 import * as jwt from 'jsonwebtoken'
 import { Payload, JwtSign } from '@/types/resuful'
@@ -7,9 +8,13 @@ import userProxy from '~/proxys/user'
 import { responseDocument } from '@/types/proxys/user'
 import { pick } from 'lodash'
 import * as passport from 'passport'
+import { loadError } from '@/utils/error'
+import { loadData } from 'kenote-config-helper/dist/utils.server'
+import { Maps } from 'kenote-config-helper'
 
-const { session_secret } = config
+const { session_secret, language } = config
 const { ExtractJwt, Strategy } = passportJWT
+const { ErrorInfo, CustomError, __ErrorCode } = loadError(language)
 
 const jwtOptions: passportJWT.StrategyOptions = {
   jwtFromRequest            : ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -51,3 +56,24 @@ export const setToken: JwtSign = (payload: Payload, options?: jwt.SignOptions): 
 )
 
 export const authenticate = passport.authenticate('jwt', { session: false })
+
+type FlagTag = 'access' | 'save' | 'create' | 'edit' | 'remove' | 'list'
+
+export const permission = (key: string, tag: FlagTag): (req: Request, res: IResponse, next: NextFunction) => any => {
+  return function (req: Request, res: IResponse, next: NextFunction): any {
+    let user: responseDocument = req.user as responseDocument
+    if (!isFlag(user.group.level, key, tag)) {
+      return res.api(null, tag === 'access' ? __ErrorCode.ERROR_AUTH_FLAG_ACCESS : __ErrorCode.ERROR_AUTH_FLAG_OPERATE)
+    }
+    return next()
+  }
+}
+
+function isFlag (level: number, key: string, tag: FlagTag = 'access'): boolean {
+  let __flags: Maps<Record<FlagTag, number>> = loadData('data/flags') as Maps<Record<FlagTag, number>>
+  if (__flags[key] && __flags[key][tag]) {
+    let __level: number = Number(__flags[key][tag])
+    return level >= __level
+  }
+  return true
+}

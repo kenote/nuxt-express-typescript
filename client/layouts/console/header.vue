@@ -14,7 +14,7 @@
         </a>
         <el-dropdown-menu slot="dropdown" class="header-link-dropdown">
           <template v-for="(channel, key) in platforms">
-            <el-dropdown-item v-if="channel.id === 11" :key="key+1000" divided></el-dropdown-item>
+            <el-dropdown-item v-if="channel.id === 1001" :key="key+1000" divided></el-dropdown-item>
             <el-dropdown-item :key="key" :command="channel.id">[{{ channel.id }}] {{ channel.name }}</el-dropdown-item>
           </template>
         </el-dropdown-menu>
@@ -34,7 +34,7 @@ import { KenoteConfig } from 'kenote-config-helper'
 import * as setting from '~/store/modules/setting'
 import * as auth from '~/store/modules/auth'
 import { responseDocument as responseUserDocument } from '@/types/proxys/user'
-import { map } from 'lodash'
+import { map, orderBy } from 'lodash'
 import authDropdown from './auth-dropdown.vue'
 import { Dropdown, Command } from '@/types'
 import { parseCommand } from '@/utils'
@@ -74,8 +74,9 @@ export default class R extends Vue {
   }
 
   filterChannels (platform?: number[]): KenoteConfig.Channel[] {
-    if (!platform) return this.channels
-    return this.channels.filter( o => platform.includes(o.id) )
+    let channels: KenoteConfig.Channel[] = orderBy(this.channels, ['id'], ['asc'])
+    if (!platform) return channels
+    return channels.filter( o => platform.includes(o.id) )
   }
 
   handleCommand (value: string): void {

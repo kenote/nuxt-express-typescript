@@ -11,6 +11,7 @@ export type ErrorMessage = {
   ERROR_NOT_FOUND_CHANNEL          : string
   ERROR_NOT_FOUND_API              : string
   ERROR_NOT_FOUND_ACCESSKEY        : string
+  ERROR_ONLY_ADVANCED_ADMIN        : string
 
   ERROR_UPLOAD_FILE_MIMETYPE       : string
   ERROR_UPLOAD_FILESIZE_LARGEMAX   : string

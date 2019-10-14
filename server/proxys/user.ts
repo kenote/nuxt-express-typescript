@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose' 
-import { MongooseDao, autoNumber, QueryOptions, UpdateWriteResult } from 'kenote-mongoose-helper'
+import { MongooseDao, autoNumber, QueryOptions, UpdateWriteResult, DeleteWriteResult } from 'kenote-mongoose-helper'
 import __Models from '../models'
 import { registerDocument, responseDocument, createDocument, responseAllDocument } from '@/types/proxys/user'
 import { loadError } from '@/utils/error'
@@ -88,6 +88,12 @@ class UserProxy {
     let { hash: encrypt, salt } = bcrypt.hash(doc.password || '')
     let result: UpdateWriteResult = await this.Dao.updateOne(conditions, { encrypt, salt })
     return result
+  }
+
+  public async remove (conditions: any): Promise<DeleteWriteResult> {
+    // 移除相关数据
+    let query: DeleteWriteResult = await this.Dao.remove(conditions)
+    return query
   }
 
 }
