@@ -65,4 +65,10 @@ const config: NuxtConfiguration = {
   }
 }
 
+/**
+ * Element-ui 点击多次路由会报错:NavigationDuplicated {_name: “NavigationDuplicated”, name: “NavigationDuplicated”}
+ * 解决方法:
+ * yarn add vue-router@3.0.6
+ */
+
 export default config
