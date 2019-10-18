@@ -188,4 +188,54 @@
     opacity: 1;
   }
 
+  .el-alert--warning {
+    border: 1px #fcedd7 solid;
+    margin-bottom: 15px;
+    border-radius: 0;
+
+    .el-alert__closebtn {
+      color: #e6a23c;
+    }
+  }
+
+  .tb-edit .el-input {
+    display: none
+  }
+  .tb-edit .current-row .el-input {
+      display: block
+  }
+  .tb-edit .current-row .el-input+span {
+      display: none
+  }
+
+  .add-button {
+    border-style: dashed;
+    margin-top: 10px; 
+    width: 100%;
+  }
+
+  .el-pagination {
+    margin-top: 15px;
+    text-align: right;
+    font-family: Comic Sans MS;
+  }
+
+  .search-container {
+    margin-bottom: 20px;
+    padding: 20px 15px 0;
+    background: #fbfbfb;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+
+    .footer {
+      border-top: 1px #e8e8e8 dashed;
+      padding: 20px 15px 0;
+      margin: 0 15px;
+
+      .el-button--primary {
+        border-radius: 0;
+      }
+    }
+  }
+
 }

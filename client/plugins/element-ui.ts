@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { 
   Backtop,
+  Badge,
   Breadcrumb,
   BreadcrumbItem,
   Button, 
@@ -11,6 +12,7 @@ import {
   Col,
   Collapse,
   CollapseItem,
+  DatePicker,
   Dialog,
   Dropdown,
   DropdownItem,
@@ -26,6 +28,7 @@ import {
   Message, 
   MessageBox,
   Option,
+  Pagination,
   Radio,
   RadioGroup,
   Row, 
@@ -38,7 +41,9 @@ import {
   Tabs,
   TabPane,
   Timeline,
-  TimelineItem
+  Tag,
+  TimelineItem,
+  Tooltip
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 // import locale from 'element-ui/lib/locale/lang/en'
@@ -47,6 +52,7 @@ import VueAMap from 'vue-amap'
 export default () => {
   // Vue.use(Element, { locale })
   Vue.use(Backtop)
+  Vue.use(Badge)
   Vue.use(Breadcrumb)
   Vue.use(BreadcrumbItem)
   Vue.use(Button)
@@ -57,6 +63,7 @@ export default () => {
   Vue.use(Col)
   Vue.use(Collapse)
   Vue.use(CollapseItem)
+  Vue.use(DatePicker)
   Vue.use(Dialog)
   Vue.use(Dropdown)
   Vue.use(DropdownItem)
@@ -70,6 +77,7 @@ export default () => {
   Vue.use(Menu)
   Vue.use(MenuItem)
   Vue.use(Option)
+  Vue.use(Pagination)
   Vue.use(Radio)
   Vue.use(RadioGroup)
   Vue.use(Row)
@@ -81,8 +89,10 @@ export default () => {
   Vue.use(TableColumn)
   Vue.use(Tabs)
   Vue.use(TabPane)
+  Vue.use(Tag)
   Vue.use(Timeline)
   Vue.use(TimelineItem)
+  Vue.use(Tooltip)
   Vue.use(VueAMap)
   Vue.component(CollapseTransition.name, CollapseTransition)
   Vue.prototype.$message = Message
