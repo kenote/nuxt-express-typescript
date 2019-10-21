@@ -336,3 +336,9 @@ export interface HeaderOptions {
   download    ?: (percentage: number) => void
   entry       ?: string
 }
+
+export interface PageInfo {
+  page         : number
+  limit        : number
+  skip         : number
+}

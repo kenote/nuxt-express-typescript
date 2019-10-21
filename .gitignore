@@ -48,6 +48,7 @@ uploadfiles/
 /docs/
 /client/static/
 !/client/static/favicon.ico
+/projects/
 
 # TypeScript v1 declaration files
 typings/

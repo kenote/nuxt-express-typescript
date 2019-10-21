@@ -1,5 +1,5 @@
 
-
+import { FindType } from './proxys/user'
 
 export declare namespace Dropdown {
 
@@ -40,33 +40,38 @@ export declare namespace Ucenter {
   }
 
   interface CreateTicket {
-    group       ?: string
-    teams        : string[]
-    stint        : number
-    last_at      : Date
+    group         ?: string
+    stint          : number
+    last_at        : Date
   }
 
-  // interface FindUser {
-  //   create_at    : Date[]
-  //   groups       : string[]
-  //   findtype     : FindType
-  //   findname    ?: string
-  //   page        ?: number
-  // }
+  interface FindUser {
+    create_at      : Date[]
+    groups         : string[]
+    findtype       : FindType
+    findname      ?: string
+    page          ?: number
+  }
 
   interface EditUser {
-    username    ?: string
-    group       ?: string
-    teams        : string[]
-    email       ?: string
-    mobile      ?: string
-    binds        : string[]
-    sex          : string
+    username      ?: string
+    group         ?: string
+    teams          : string[]
+    email         ?: string
+    mobile        ?: string
+    binds          : string[]
+    sex            : string
   }
 
   interface CreateTeam {
-    name        ?: string
-    description ?: string
-    platform     : Array<number>
+    name          ?: string
+    description   ?: string
+    platform       : Array<number>
   }
+}
+
+export interface listDocument<T> {
+  data           : T[]
+  counts         : number
+  limit          : number
 }

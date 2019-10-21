@@ -1,5 +1,7 @@
 import * as crypto from 'crypto'
 import * as passport from '@/types/passport'
+import { toInteger } from 'lodash'
+import { PageInfo } from '@/types/resuful'
 
 export const md5 = (text: string): string => crypto.createHash('md5').update(text).digest('hex')
 
@@ -20,6 +22,15 @@ class Bcrypt {
 }
 
 export const bcrypt: Bcrypt = new Bcrypt()
+
+export const toPageInfo = (page: number, size: number = 10): PageInfo => {
+  let parseVal: number = toInteger(page || 1)
+  // tslint:disable-next-line: use-isnan
+  let val: number = parseVal === NaN ? 1 : parseVal
+  let pageCode: number = isNaN(val) || val < 1 ? 1 : parseVal
+  let skipVal: number = (pageCode - 1) * size
+  return { page: pageCode, limit: size, skip: skipVal }
+}
 
 
 

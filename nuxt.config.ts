@@ -18,6 +18,12 @@ const config: NuxtConfiguration = {
   },
   css: [
     // 'element-ui/lib/theme-chalk/index.css',
+    // lib css
+    'codemirror/lib/codemirror.css',
+    // merge css
+    'codemirror/addon/merge/merge.css',
+    // theme css
+    'codemirror/theme/paraiso-light.css',
     'animate.css/animate.css',
     '~/assets/iconfont/iconfont.css',
     '~/assets/scss/common.scss'
@@ -29,6 +35,7 @@ const config: NuxtConfiguration = {
    * 此问题官方已修复，修复版本为 v2.11.1
    */
   plugins: [
+    { src: '~plugins/codemirror', ssr: false },
     '~/plugins/component',
     { src: '~/plugins/element-ui', ssr: true }
   ],

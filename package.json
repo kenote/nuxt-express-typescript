@@ -55,6 +55,7 @@
     "tty-table": "2.7.0",
     "v-charts": "^1.19.0",
     "vue-amap": "^0.5.10",
+    "vue-codemirror": "^4.0.6",
     "vue-fragment": "^1.5.1",
     "vue-router": "3.0.6",
     "yarn": "^1.17.3"
@@ -62,6 +63,7 @@
   "devDependencies": {
     "@nuxt/typescript": "^2.8.1",
     "@types/bytes": "^3.0.0",
+    "@types/codemirror": "^0.0.78",
     "@types/connect-redis": "^0.0.10",
     "@types/cookie-parser": "^1.4.1",
     "@types/cors": "^2.8.5",
