@@ -12,6 +12,7 @@ export type ErrorMessage = {
   ERROR_NOT_FOUND_API              : string
   ERROR_NOT_FOUND_ACCESSKEY        : string
   ERROR_ONLY_ADVANCED_ADMIN        : string
+  ERROR_AUTH_OPERATE_USER_NULL     : string
 
   ERROR_UPLOAD_FILE_MIMETYPE       : string
   ERROR_UPLOAD_FILESIZE_LARGEMAX   : string
@@ -44,6 +45,7 @@ export type ErrorMessage = {
   ERROR_VALID_DATE_REQUIRED        : string
   ERROR_VALID_DATE_FORMAT          : string
   ERROR_VALID_NAME_REQUIRED        : string
+  ERROR_VALID_NAME_FORMAT          : string
 
   ERROR_VERIFY_EMAIL_TIMEOUT       : string
   ERROR_VERIFY_EMAIL_FAILED        : string

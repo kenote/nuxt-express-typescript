@@ -1,5 +1,11 @@
-
+import { KeyMap } from 'kenote-config-helper'
 import { FindType } from './proxys/user'
+
+export interface Option {
+  key           : number | string
+  label         : string
+  disabled     ?: boolean
+}
 
 export declare namespace Dropdown {
 
@@ -55,12 +61,13 @@ export declare namespace Ucenter {
 
   interface EditUser {
     username      ?: string
+    nickname      ?: string
     group         ?: string
-    teams          : string[]
+    teams         ?: string[]
     email         ?: string
     mobile        ?: string
     binds          : string[]
-    sex            : string
+    sex            : number
   }
 
   interface CreateTeam {
@@ -74,4 +81,18 @@ export interface listDocument<T> {
   data           : T[]
   counts         : number
   limit          : number
+}
+
+export interface CDTime {
+  key          : string
+  value        : number
+}
+
+export interface CDTimeStore {
+  date         : Date
+  value        : number
+}
+
+export interface GroupData extends KeyMap<string> {
+  children     : KeyMap<string>[]
 }

@@ -71,6 +71,11 @@ export interface IRequest extends Request, Maps<any> {
    */
   __footer              : Maps<homepage.Footer>
 
+  /**
+   * Rtsps
+   */
+  __rtsps               : Maps<string[]>
+
 }
 
 /**

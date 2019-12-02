@@ -12,6 +12,7 @@ export type ErrorCode = {
   ERROR_NOT_FOUND_API              : number
   ERROR_NOT_FOUND_ACCESSKEY        : number
   ERROR_ONLY_ADVANCED_ADMIN        : number
+  ERROR_AUTH_OPERATE_USER_NULL     : number
 
   ERROR_UPLOAD_FILE_MIMETYPE       : number
   ERROR_UPLOAD_FILESIZE_LARGEMAX   : number
@@ -44,6 +45,7 @@ export type ErrorCode = {
   ERROR_VALID_DATE_REQUIRED        : number
   ERROR_VALID_DATE_FORMAT          : number
   ERROR_VALID_NAME_REQUIRED        : number
+  ERROR_VALID_NAME_FORMAT          : number
 
   ERROR_VERIFY_EMAIL_TIMEOUT       : number
   ERROR_VERIFY_EMAIL_FAILED        : number

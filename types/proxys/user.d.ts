@@ -23,6 +23,15 @@ export interface createDocument {
   teams       ?: Array<ObjectId | string>
 }
 
+export interface updateDocument {
+  username    ?: string
+  nickname    ?: string
+  sex         ?: number
+  avatar      ?: string
+  email       ?: string
+  mobile      ?: string
+}
+
 export interface responseDocument extends mongoose.Document {
 
   /**
@@ -119,4 +128,9 @@ export interface FindTypeNames {
   email       ?: string
   nickname    ?: string
   mobile      ?: string
+}
+
+export interface editDocument {
+  conditions   : any
+  data         : updateDocument
 }

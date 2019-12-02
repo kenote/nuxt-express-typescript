@@ -11,6 +11,8 @@ export interface updateDocument {
   level       ?: number
   description ?: string
   store       ?: createStoreDocument
+  platform    ?: number[]
+  access      ?: string[]
   default     ?: boolean
 }
 
@@ -20,12 +22,14 @@ export interface responseDocument extends mongoose.Document {
   level        : number
   description  : string
   store        : responseStoreDocument
+  platform     : number[]
+  access       : string[]
   default      : boolean
 }
 
 export interface editDocument {
   conditions   : any
-  data         : createDocument
+  data         : createDocument | updateDocument
 }
 
 export interface removeDocument {
