@@ -6,9 +6,18 @@
   overflow-y: auto;
   overflow-x: hidden;
   position: relative;
+  min-width: 940px;
 
   &>div {
     padding: 20px 20px 100px;
+  }
+
+  .is-disabled {
+    color: #d9d9d9;
+
+    &:hover {
+      cursor: not-allowed;
+    }
   }
 
   .el-breadcrumb {
@@ -88,13 +97,25 @@
       .el-transfer__buttons {
 
         .el-button {
-          border-radius: 50%;
+          // border-radius: 50%;
         }
   
         .el-button--primary {
           width: auto;
         }
 
+      }
+
+      .el-transfer-panel__body {
+
+        .el-input {
+          width: auto;
+        }
+      }
+
+      .el-transfer-panel__item {
+        margin-left: 0;
+        display: block!important;
       }
     }
   }
