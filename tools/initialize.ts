@@ -6,6 +6,7 @@ import __Models from '../server/models'
 import groupProxy from '../server/proxys/group'
 import storeProxy from '../server/proxys/store'
 import ticketProxy from '../server/proxys/ticket'
+import userProxy from '../server/proxys/user'
 import { Initialize } from './initialize.d'
 import { responseDocument as responseGroupDocument } from '../types/proxys/group'
 import { responseDocument as responseTicketDocument } from '../types/proxys/ticket'
@@ -28,6 +29,7 @@ async function start (): Promise<void> {
     await storeProxy.Dao.clear()
     await ticketProxy.Dao.clear()
     await groupProxy.Dao.clear()
+    await userProxy.Dao.clear()
     await createGroups(groupSettings)
     let tickets: responseTicketDocument[] = await createTickets(groupSettings, ticketSettings)
     renderTable(tickets.map( ticket => ([ ticket.name, ticket.cdkey, ticket.stint, ticket.last_at ])))

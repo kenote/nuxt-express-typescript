@@ -63,11 +63,18 @@ export default async function restoreDeploy (): Promise<any> {
       fs.removeSync(file)
     }
     fs.copySync(path.resolve(rootDir, 'data'), dataDir)
-    // 2、还原 静态文件目录 /client/static/
+    // 2、还原 /projects/ 目录
+    let projectsDir: string = path.resolve(process.cwd(), 'projects')
+    let projectsFiles: string[] = await pickFiles(['.**/**', '**'], { cwd: projectsDir, nodir: true, realpath: true, ignore: ['**/*.default.yml', '**/README.md'] })
+    for (let file of projectsFiles) {
+      fs.removeSync(file)
+    }
+    fs.copySync(path.resolve(rootDir, 'projects'), projectsDir)
+    // 3、还原 静态文件目录 /client/static/
     let staticDir: string = path.resolve(process.cwd(), 'client/static')
     fs.removeSync(staticDir)
     fs.copySync(path.resolve(rootDir, 'client/static'), staticDir)
-    // 3、还原数据库
+    // 4、还原数据库
     let config: ServerConfiguration = loadData('data/config') as ServerConfiguration
     let { uris } = config.mongodb || { uris: '' }
     if (uris) {

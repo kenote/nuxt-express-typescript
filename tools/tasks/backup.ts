@@ -79,11 +79,15 @@ export default async function backupDeploy (): Promise<any> {
     let dataDir: string = path.resolve(rootDir, 'data')
     fs.existsSync(dataDir) && fs.removeSync(dataDir)
     fs.copySync(path.resolve(process.cwd(), 'data'), dataDir)
-    // 2、备份 静态文件目录 /client/static/
+    // 2、备份 /projects/ 目录
+    let projectsDir: string = path.resolve(rootDir, 'projects')
+    fs.existsSync(projectsDir) && fs.removeSync(projectsDir)
+    fs.copySync(path.resolve(process.cwd(), 'projects'), projectsDir)
+    // 3、备份 静态文件目录 /client/static/
     let staticDir: string = path.resolve(rootDir, 'client/static')
     fs.existsSync(staticDir) && fs.removeSync(staticDir)
     fs.copySync(path.resolve(process.cwd(), 'client/static'), staticDir)
-    // 3、备份数据库
+    // 4、备份数据库
     let config: ServerConfiguration = loadData('data/config') as ServerConfiguration
     let { uris } = config.mongodb || { uris: '' }
     if (uris) {

@@ -29,6 +29,7 @@ mongodb:
   options:
     useNewUrlParser        : true
     useCreateIndex         : true
+    useUnifiedTopology     : true
 
 # 默认语言
 language          : zh-cn
