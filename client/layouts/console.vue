@@ -58,6 +58,8 @@ import { Dropdown } from '@/types'
 import { FlagItem } from '@/types/resuful'
 import { map } from 'lodash'
 import { oc } from 'ts-optchain'
+import { getAccess } from '@/utils/user'
+import { getMetaInfo } from '@/utils'
 import '~/assets/scss/console/warpper.scss'
 import '~/assets/scss/console/page.scss'
 
@@ -69,6 +71,10 @@ const Auth: BindingHelpers = namespace(auth.name)
     consoleHeader,
     sidebarMenu
   },
+  head () {
+    let self: R = this as R
+    return getMetaInfo(self.metas)
+  },
   async mounted () {
     document.body.className = 'console_body'
     let self: R = this as R
@@ -78,6 +84,7 @@ const Auth: BindingHelpers = namespace(auth.name)
 export default class R extends Vue {
 
   @Auth.State user!: responseUserDocument
+  @Setting.State metas!: Maps<string | undefined>
   @Setting.State channels!: KenoteConfig.Channel[]
   @Setting.State userEntrance!: Dropdown.MenuItem[]
   @Setting.State loading!: Maps<boolean>
@@ -90,6 +97,13 @@ export default class R extends Vue {
   @Watch('$route')
   async onRouteChange (route: Route): Promise<void> {
     await this.updateChannel(route.path)
+  }
+
+  @Watch('permission')
+  onPermissionChange (permission: boolean): void {
+    // if (!permission) {
+    //   this.$router.replace('/account/baseinfo')
+    // }
   }
 
   @Provide() collapse: boolean = false
@@ -110,13 +124,14 @@ export default class R extends Vue {
     let pageFlag: FlagItem = this.flags[routerPath]
     let permission: boolean = oc(pageFlag).access(1000) <= group.level
     if (group.level < 9000 && permission) {
-      let iaccess: string[] = (access || []).length > 0 ? access : Array.from(new Set(map(teams, 'access').toString().split(',')))
+      // let iaccess: string[] = (access || []).length > 0 ? access : Array.from(new Set(map(teams, 'access').toString().split(',')))
+      let iaccess: string[] = getAccess(this.user)
       permission = iaccess.includes(routerPath)
     }
-    this.permission = permission
     let channelId: number = getChannelId(this.channels, routerPath)
     if (this.selectedChannel.id === channelId) return
     await this.selectChannel(channelId)
+    this.permission = permission
     this.collapse = false
   }
   

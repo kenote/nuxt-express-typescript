@@ -20,6 +20,8 @@ import passportHeader from './passport/header.vue'
 import passportFooter from './passport/footer.vue'
 import '~/assets/scss/passport/warpper.scss'
 import { Register } from '@/types/resuful'
+import { getMetaInfo } from '@/utils'
+import { Maps } from 'kenote-config-helper'
 
 const Setting: BindingHelpers = namespace(setting.name)
 const Auth: BindingHelpers = namespace(auth.name)
@@ -29,6 +31,15 @@ const Auth: BindingHelpers = namespace(auth.name)
     passportHeader,
     passportFooter
   },
+  head () {
+    let self: R = this as R
+    return getMetaInfo(self.metas, [
+      {
+        name: 'viewport',
+        content: 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
+      }
+    ])
+  },
   created () {
     let self: R = this as R
     self.updatePageTitle(self.$route.path)
@@ -36,20 +47,11 @@ const Auth: BindingHelpers = namespace(auth.name)
   mounted () {
     document.body.className = 'passport_body'
   },
-  head () {
-    return {
-      meta: [
-        {
-          name: 'viewport',
-          content: 'width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no'
-        }
-      ]
-    }
-  }
 })
 export default class R extends Vue {
 
   @Auth.State user!: responseUserDocument
+  @Setting.State metas!: Maps<string | undefined>
   @Setting.State register!: Register.Config
   
   @Provide() titleName: string = ''

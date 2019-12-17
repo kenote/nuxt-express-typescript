@@ -40,6 +40,7 @@ import { Dropdown, Command } from '@/types'
 import { parseCommand } from '@/utils'
 import httpClient from '@/utils/http'
 import { resufulInfo } from '@/types/resuful'
+import { getPlatform } from '@/utils/user'
 
 @Component({
   name: 'console-header',
@@ -50,9 +51,10 @@ import { resufulInfo } from '@/types/resuful'
     let self: R = this as R
     if (!self.auth) return
     let platform!: number[]
-    let { group, teams } = self.auth
+    let { group } = self.auth
     if (group.level < 9000) {
-      platform = Array.from(new Set(map(teams, 'platform').toString().split(',').map(Number)))
+      // platform = Array.from(new Set(map(teams, 'platform').toString().split(',').map(Number)))
+      platform = getPlatform(self.auth)
     }
     self.platforms = self.filterChannels(platform)
   }
