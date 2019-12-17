@@ -55,7 +55,8 @@ export declare namespace ProtoSend {
   interface Parse {
     key                : string
     separator          : string | RegExp
-    collection         : KeyMap<string>[]
+    filter            ?: number[]
+    collection        ?: KeyMap<string>[]
     orderBy           ?: OrderBy
     int               ?: ParseInt
     format            ?: string

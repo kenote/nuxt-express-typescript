@@ -73,7 +73,6 @@ export declare namespace Ucenter {
   interface CreateTeam {
     name          ?: string
     description   ?: string
-    platform       : Array<number>
   }
 }
 

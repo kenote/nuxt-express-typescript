@@ -4,6 +4,7 @@ import * as jwt from 'jsonwebtoken'
 import * as singlepage from './singlepage'
 import { Dropdown } from './'
 import * as homepage from './homepage'
+import { CancelToken } from 'axios'
 
 /**
  * 自定义 Response
@@ -75,6 +76,16 @@ export interface IRequest extends Request, Maps<any> {
    * Rtsps
    */
   __rtsps               : Maps<string[]>
+
+  /**
+   * Proxy Host
+   */
+  __proxyhost           : string
+
+  /**
+   * Head Metas
+   */
+  __headmetas           : Maps<string | undefined>
 
 }
 
@@ -340,6 +351,7 @@ export interface HeaderOptions {
   upload      ?: (percentage: number) => void
   download    ?: (percentage: number) => void
   entry       ?: string
+  cancelToken ?: CancelToken
 }
 
 export interface PageInfo {
