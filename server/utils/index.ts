@@ -3,6 +3,12 @@ import * as passport from '@/types/passport'
 import { toInteger } from 'lodash'
 import { PageInfo } from '@/types/resuful'
 
+import * as path from 'path'
+import * as fs from 'fs-extra'
+import { loadData } from 'kenote-config-helper/dist/utils.server'
+import { ProtoOptions, ProtoAPI, ProtoSend } from '@/types/proto'
+import { Maps } from 'kenote-config-helper'
+
 export const md5 = (text: string): string => crypto.createHash('md5').update(text).digest('hex')
 
 export const sha1 = (text: string): string => crypto.createHash('sha1').update(text).digest('hex')
@@ -32,5 +38,19 @@ export const toPageInfo = (page: number, size: number = 10): PageInfo => {
   return { page: pageCode, limit: size, skip: skipVal }
 }
 
-
+export function getRtsps () {
+  let _rtsps: Maps<string[]> = {}
+  let projectDir: string = path.resolve(process.cwd(), 'projects')
+  if (!fs.existsSync(projectDir)) return _rtsps
+  let projects = fs.readdirSync(projectDir)
+  for (let project of projects) {
+    let projectStat: fs.Stats = fs.statSync(path.resolve(projectDir, project))
+    if (projectStat.isDirectory()) {
+      let options: ProtoOptions = loadData(`projects/${project}/setting`) as ProtoOptions
+      let { rstps } = options
+      _rtsps[project] = Object.keys(rstps)
+    }
+  }
+  return _rtsps
+}
 

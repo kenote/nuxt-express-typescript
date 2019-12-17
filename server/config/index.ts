@@ -1,9 +1,9 @@
 import { ServerConfiguration } from 'kenote-config-helper'
 import { loadData } from 'kenote-config-helper/dist/utils.server'
 import { Nuxt, Builder } from 'nuxt'
-import nuxtConfig from '../../nuxt.config'
+import nuxtConfig from '@/nuxt.config'
 
-const config: ServerConfiguration = <ServerConfiguration> loadData('data/config')
+const config: ServerConfiguration = loadData('data/config') as ServerConfiguration
 
 export default config
 

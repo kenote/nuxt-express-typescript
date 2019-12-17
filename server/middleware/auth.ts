@@ -14,7 +14,7 @@ import { Maps } from 'kenote-config-helper'
 
 const { session_secret, language } = config
 const { ExtractJwt, Strategy } = passportJWT
-const { ErrorInfo, CustomError, __ErrorCode } = loadError(language)
+const { ErrorInfo, __ErrorCode } = loadError(language)
 
 const jwtOptions: passportJWT.StrategyOptions = {
   jwtFromRequest            : ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -22,9 +22,14 @@ const jwtOptions: passportJWT.StrategyOptions = {
   secretOrKey               : session_secret
 }
 
-const startegyVerify: passportJWT.VerifyCallbackWithRequest = async (req, payload: Payload, done): Promise<void> => {
+const startegyVerify: passportJWT.VerifyCallbackWithRequest = async (req: Request, payload: Payload, done: passportJWT.VerifiedCallback): Promise<void> => {
   try {
-    let user: responseDocument = await userProxy.Dao.findOne({ _id: payload._id }) as responseDocument
+    let jw_token: string = req.headers.authorization!.replace(/^(Bearer)\s{1}/, '')
+    let user: responseDocument = await userProxy.Dao.findOne({ _id: payload._id, jw_token }) as responseDocument
+    if (!user) {
+      req.logout()
+      return done(null, false)
+    }
     return done(null, pick(user, [
       '_id', 
       'id', 
@@ -69,6 +74,12 @@ export const permission = (key: string, tag: FlagTag): (req: Request, res: IResp
   }
 }
 
+export function permissionFilter (key: string, tag: FlagTag, user: responseDocument) {
+  if (!isFlag(user.group.level, key, tag)) {
+    throw ErrorInfo(tag === 'access' ? __ErrorCode.ERROR_AUTH_FLAG_ACCESS : __ErrorCode.ERROR_AUTH_FLAG_OPERATE)
+  }
+}
+
 function isFlag (level: number, key: string, tag: FlagTag = 'access'): boolean {
   let __flags: Maps<Record<FlagTag, number>> = loadData('data/flags') as Maps<Record<FlagTag, number>>
   if (__flags[key] && __flags[key][tag]) {
@@ -76,4 +87,19 @@ function isFlag (level: number, key: string, tag: FlagTag = 'access'): boolean {
     return level >= __level
   }
   return true
+}
+
+/**
+ * 判断用户操作权限
+ */
+export function filterUserLevel (auth: responseDocument, level: number, minLevel: number): void {
+  if (auth.group.level === 9999) return
+  // 
+  if (auth.group.level < minLevel) {
+    throw ErrorInfo(__ErrorCode.ERROR_ONLY_ADVANCED_ADMIN)
+  }
+  // 判断是否越级操作 
+  if (level >= auth.group.level) {
+    throw ErrorInfo(__ErrorCode.ERROR_BYLOND_LEVEL_OPERATE)
+  }
 }

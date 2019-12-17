@@ -1,4 +1,4 @@
-import { Response } from 'express'
+import { Response, Request } from 'express'
 import { isNumber, isError } from 'util'
 import * as path from 'path'
 import * as fs from 'fs-extra'
@@ -8,6 +8,7 @@ import { IError, IErrorInfo } from 'kenote-config-helper'
 import config from '~/config'
 import { loadError } from '@/utils/error'
 import { resufulInfo, IResponse, DownloadOptions } from '@/types/resuful'
+import logger from '@/utils/logger'
 
 const { options, language } = config
 const headers: string[][] | undefined = oc(options).headers()
@@ -23,7 +24,7 @@ const preview = {
 class Restful extends Middleware {
 
   @RegisterMiddlewareMethod()
-  public api (res: Response): any {
+  public api (res: Response, req: Request): any {
     return (data: any, error?: number | IError | IErrorInfo, opts?: string[]): Response => {
       error = error || __ErrorCode.ERROR_STATUS_NULL
       let errorCode: number = isNumber(error) ? error : <number> error.code
@@ -32,6 +33,13 @@ class Restful extends Middleware {
         Status = { code: <number> error.code, message: error.message }
       }
       let info: resufulInfo = { data, Status }
+      logger.info(`Result API -->`, JSON.stringify({
+        path: req.originalUrl,
+        method: req.method,
+        headers: req.headers,
+        payload: req.body,
+        response: info
+      }, null, 2))
       return res.json(info)
     }
   }
