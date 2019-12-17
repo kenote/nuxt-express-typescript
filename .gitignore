@@ -49,6 +49,9 @@ uploadfiles/
 /client/static/
 !/client/static/favicon.ico
 /projects/
+exclude.*.list
+include.*.list
+start.sh
 
 # TypeScript v1 declaration files
 typings/

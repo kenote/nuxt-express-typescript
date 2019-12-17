@@ -23,18 +23,6 @@ update:
 	@npm set registry https://registry.npm.taobao.org
 	@npm update
 
-start:
-	@pm2 start ecosystem.config.js
-
-restart:
-	@pm2 restart ecosystem.config.js
-
-stop:
-	@pm2 stop ecosystem.config.js
-
-delete:
-	@pm2 delete ecosystem.config.js
-
 initialize:
 	@node ./build/initialize.js
 

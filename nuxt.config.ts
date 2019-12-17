@@ -1,5 +1,4 @@
 import NuxtConfiguration from '@nuxt/config'
-const pkg = require('./package.json')
 
 // buefy cause 'ReferenceError: HTMLElement is not defined'
 // See https://github.com/buefy/buefy/issues/712
@@ -9,7 +8,7 @@ const config: NuxtConfiguration = {
   env: {},
   srcDir: 'client',
   head: {
-    title: pkg.name || '站点标题',
+    title: '站点标题',
     meta: [
       { charset: 'utf-8' },
       // { name: 'viewport', content: 'width=device-width, initial-scale=1' },
