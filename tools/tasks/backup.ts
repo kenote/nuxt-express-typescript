@@ -8,7 +8,7 @@ import { TaskSpinner } from 'kenote-task-helper'
 import { trim } from 'lodash'
 import { ITask } from '../task'
 import * as runscript from 'runscript'
-import { loadData } from 'kenote-config-helper/dist/utils.server'
+import { loadData, pickFiles } from 'kenote-config-helper/dist/utils.server'
 import { ServerConfiguration } from 'kenote-config-helper'
 import * as UrlParse from 'url-parse'
 
@@ -77,12 +77,22 @@ export default async function backupDeploy (): Promise<any> {
     !fs.existsSync(rootDir) && fs.mkdirSync(rootDir)
     // 1、备份 /data/ 目录
     let dataDir: string = path.resolve(rootDir, 'data')
-    fs.existsSync(dataDir) && fs.removeSync(dataDir)
-    fs.copySync(path.resolve(process.cwd(), 'data'), dataDir)
+    if (fs.existsSync(dataDir)) {
+      let dataDirFiles: string[] = await pickFiles(['.**/**', '**'], { cwd: dataDir, nodir: true, realpath: true, ignore: ['**/release.yml'] })
+      dataDirFiles.forEach( item => fs.removeSync(item) )
+    }
+    fs.copySync(path.resolve(process.cwd(), 'data'), dataDir, { filter: (src: string, dest: string): boolean => {
+      return !/(initialize.yml)$/.test(src)
+    }})
     // 2、备份 /projects/ 目录
     let projectsDir: string = path.resolve(rootDir, 'projects')
-    fs.existsSync(projectsDir) && fs.removeSync(projectsDir)
-    fs.copySync(path.resolve(process.cwd(), 'projects'), projectsDir)
+    if (fs.existsSync(projectsDir)) {
+      let projectsDirFiles: string[] = await pickFiles(['.**/**', '**'], { cwd: projectsDir, nodir: true, realpath: true, ignore: ['**/release.yml'] })
+      projectsDirFiles.forEach( item => fs.removeSync(item) )
+    }
+    fs.copySync(path.resolve(process.cwd(), 'projects'), projectsDir, { filter: (src: string, dest: string): boolean => {
+      return !/(item.yml|task.yml|gift.yml|diamond.yml|server.yml|install.ts|pb.bat)$/.test(src)
+    }})
     // 3、备份 静态文件目录 /client/static/
     let staticDir: string = path.resolve(rootDir, 'client/static')
     fs.existsSync(staticDir) && fs.removeSync(staticDir)

@@ -62,14 +62,19 @@ export default async function restoreDeploy (): Promise<any> {
     for (let file of dataFiles) {
       fs.removeSync(file)
     }
-    fs.copySync(path.resolve(rootDir, 'data'), dataDir)
+    fs.copySync(path.resolve(rootDir, 'data'), dataDir, { filter: (src: string, dest: string): boolean => {
+      return !/(release.yml)$/.test(src)
+    }})
     // 2、还原 /projects/ 目录
     let projectsDir: string = path.resolve(process.cwd(), 'projects')
-    let projectsFiles: string[] = await pickFiles(['.**/**', '**'], { cwd: projectsDir, nodir: true, realpath: true, ignore: ['**/*.default.yml', '**/README.md'] })
+    let projectIgnore: string[] = ['**/*.default.yml', '**/README.md', '**/pb.bat', '**/install.ts', '**/(item|task|gift|diamond|server|).yml']
+    let projectsFiles: string[] = await pickFiles(['.**/**', '**'], { cwd: projectsDir, nodir: true, realpath: true, ignore: projectIgnore })
     for (let file of projectsFiles) {
       fs.removeSync(file)
     }
-    fs.copySync(path.resolve(rootDir, 'projects'), projectsDir)
+    fs.copySync(path.resolve(rootDir, 'projects'), projectsDir, { filter: (src: string, dest: string): boolean => {
+      return !/(release.yml)$/.test(src)
+    }})
     // 3、还原 静态文件目录 /client/static/
     let staticDir: string = path.resolve(process.cwd(), 'client/static')
     fs.removeSync(staticDir)
