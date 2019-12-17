@@ -18,6 +18,14 @@ const schema: Schema = new Schema({
     type: String,
     default: ''
   },
+  platform: {
+    type: Array,
+    default: []
+  },
+  access: {
+    type: Array,
+    default: []
+  },
   store: {
     type: Schema.Types.ObjectId,
     ref: 'store'

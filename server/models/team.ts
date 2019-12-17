@@ -22,9 +22,17 @@ const schema: Schema = new Schema({
     type: Array,
     default: []
   },
+  rtsps: {
+    type: Object,
+    default: {}
+  },
   description: {
     type: String,
     default: ''
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: 'user'
   }
 })
 

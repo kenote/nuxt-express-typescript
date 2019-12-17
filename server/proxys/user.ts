@@ -17,7 +17,7 @@ const options: QueryOptions = {
   populate: [
     {
       path: 'group',
-      select: ['id', 'name', 'level', 'description', 'store'],
+      select: ['id', 'name', 'level', 'description', 'store', 'platform', 'access'],
       populate: {
         path: 'store',
         select: ['upload_type', 'download_type']
@@ -25,7 +25,7 @@ const options: QueryOptions = {
     },
     {
       path: 'teams',
-      select: ['id', 'name', 'description', 'platform', 'access']
+      select: ['id', 'name', 'description', 'platform', 'access', 'rtsps']
     }
   ],
   seqModel: __Models.seqModel

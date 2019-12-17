@@ -11,7 +11,10 @@ import { oc } from 'ts-optchain'
 const Model: mongoose.Model<mongoose.Document, {}> = __Models.groupModel
 const options: QueryOptions = {
   name: 'group',
-  populate: { path: '' },
+  populate: { 
+    path: 'store',
+    select: [ 'upload_type', 'download_type' ] 
+  },
   seqModel: __Models.seqModel
 }
 
@@ -31,7 +34,7 @@ class GroupProxy {
   }
 
   public async update (conditions: any, doc: updateDocument): Promise<UpdateWriteResult> {
-    let query: UpdateWriteResult = await this.Dao.updateOne(conditions, pick(doc, ['name', 'level', 'description', 'default']))
+    let query: UpdateWriteResult = await this.Dao.updateOne(conditions, pick(doc, ['name', 'level', 'description', 'default', 'platform', 'access']))
     if (doc.store) {
       let group: responseDocument = await this.Dao.findOne(conditions) as responseDocument
       query = await storeProxy.Dao.updateOne({ _id: group.store._id }, doc.store)

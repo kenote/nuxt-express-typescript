@@ -51,6 +51,10 @@ const schema: Schema = new Schema({
     type: Array,
     default: []
   },
+  rstps: {
+    type: Object,
+    default: {}
+  },
   create_at: {
     type: Date,
     default: Date.now
