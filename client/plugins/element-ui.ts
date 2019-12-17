@@ -4,7 +4,9 @@ import {
   Badge,
   Breadcrumb,
   BreadcrumbItem,
-  Button, 
+  Button,
+  Cascader, 
+  Card,
   Carousel, 
   CarouselItem,
   Checkbox,
@@ -22,6 +24,7 @@ import {
   Icon,
   Input, 
   InputNumber,
+  Link,
   Loading, 
   Menu,
   MenuItem,
@@ -30,6 +33,7 @@ import {
   Option,
   Pagination,
   Radio,
+  RadioButton,
   RadioGroup,
   Row, 
   Select,
@@ -43,7 +47,10 @@ import {
   Timeline,
   Tag,
   TimelineItem,
-  Tooltip
+  Tooltip,
+  Transfer,
+  Tree,
+  Upload
 } from 'element-ui'
 import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 // import locale from 'element-ui/lib/locale/lang/en'
@@ -56,6 +63,8 @@ export default () => {
   Vue.use(Breadcrumb)
   Vue.use(BreadcrumbItem)
   Vue.use(Button)
+  Vue.use(Cascader)
+  Vue.use(Card)
   Vue.use(Carousel)
   Vue.use(CarouselItem)
   Vue.use(Checkbox)
@@ -73,12 +82,14 @@ export default () => {
   Vue.use(Icon)
   Vue.use(Input)
   Vue.use(InputNumber)
+  Vue.use(Link)
   Vue.use(Loading)
   Vue.use(Menu)
   Vue.use(MenuItem)
   Vue.use(Option)
   Vue.use(Pagination)
   Vue.use(Radio)
+  Vue.use(RadioButton)
   Vue.use(RadioGroup)
   Vue.use(Row)
   Vue.use(Select)
@@ -93,6 +104,9 @@ export default () => {
   Vue.use(Timeline)
   Vue.use(TimelineItem)
   Vue.use(Tooltip)
+  Vue.use(Transfer)
+  Vue.use(Tree)
+  Vue.use(Upload)
   Vue.use(VueAMap)
   Vue.component(CollapseTransition.name, CollapseTransition)
   Vue.prototype.$message = Message

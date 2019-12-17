@@ -3,8 +3,9 @@ import { Maps, KenoteConfig, Channel, Navigation } from 'kenote-config-helper'
 import { RootState } from '../'
 import { Register, FlagItem } from '@/types/resuful'
 import * as singlepage from '@/types/singlepage'
-import { Dropdown } from '@/types'
+import { Dropdown, CDTime, CDTimeStore } from '@/types'
 import homepage from '@/types/homepage'
+import { oc } from 'ts-optchain'
 
 export const name: string = 'setting'
 
@@ -19,7 +20,10 @@ export const types = {
   FLAGES             : 'FLAGES',
   HOMEPAGE           : 'HOMEPAGE',
   NAVIGATION         : 'NAVIGATION',
-  FOOTER             : 'FOOTER'
+  FOOTER             : 'FOOTER',
+  CDTIME             : 'CDTIME',
+  RTSPS              : 'RTSPS',
+  METAS              : 'METAS'
 }
 
 export interface State extends Maps<any> {
@@ -34,6 +38,9 @@ export interface State extends Maps<any> {
   homepage           : Maps<homepage.Page>
   navigation         : Maps<Navigation[]>
   footer             : Maps<homepage.Footer>
+  cdtimes            : Maps<CDTimeStore>
+  rtsps              : Maps<string[]>
+  metas              : Maps<string | undefined>
 }
 
 export const namespaced: boolean = true
@@ -50,7 +57,10 @@ export const state = (): State => ({
   flags: {},
   homepage: {},
   navigation: {},
-  footer: {}
+  footer: {},
+  cdtimes: {},
+  rtsps: {},
+  metas: {}
 })
 
 export const defaultChannel: KenoteConfig.Channel = { id: 0, name: '控制台', label: 'console', navs: [], default: '/' }
@@ -60,6 +70,13 @@ export const getters: GetterTree<State, RootState> = {
     let p: KenoteConfig.Channel = state.channels.find( o => o.id === state.selected.channel )!
     return p || defaultChannel
   },
+  cdtime: state => key => {
+    return state.cdtimes[key] || { date: new Date(), value: 0 }
+  },
+  rtsps: state => {
+    let p: KenoteConfig.Channel = oc(state.channels.find( o => o.id === state.selected.channel ))(defaultChannel)
+    return oc(state.rtsps)[p.label]([])
+  }
 }
 
 export interface Actions<S, R> extends ActionTree<S, R> {
@@ -107,5 +124,17 @@ export const mutations: MutationTree<State> = {
   },
   [types.FOOTER] (state: State, footer: Maps<homepage.Footer>): void {
     state.footer = footer
+  },
+  [types.CDTIME] (state: State, cdtime: CDTime): void {
+    state.cdtimes[cdtime.key] = {
+      date      : new Date(),
+      value     : cdtime.value
+    }
+  },
+  [types.RTSPS] (state: State, rtsps: Maps<string[]>): void {
+    state.rtsps = rtsps
+  },
+  [types.METAS] (state: State, metas: Maps<string | undefined>): void {
+    state.metas = metas
   }
 }

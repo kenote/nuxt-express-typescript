@@ -24,19 +24,21 @@ export const actions: Actions<State, RootState> = {
     commit(`${setting.name}/${setting.types.SINGLEPAGES}`, req.__singlePages)
     commit(`${setting.name}/${setting.types.USERENTRANCE}`, req.__userEntrance)
     commit(`${setting.name}/${setting.types.CHANNELS}`, req.__channels)
-    let channelId: number = getChannelId(req.__channels, req.path)
+    let channelId: number = getChannelId(req.__channels || [], req.path)
     commit(`${setting.name}/${setting.types.SELECTCHANNEL}`, channelId || 0)
     commit(`${setting.name}/${setting.types.FLAGES}`, req.__flags)
     commit(`${setting.name}/${setting.types.HOMEPAGE}`, req.__homepage)
     commit(`${setting.name}/${setting.types.NAVIGATION}`, req.__navigation)
     commit(`${setting.name}/${setting.types.FOOTER}`, req.__footer)
+    commit(`${setting.name}/${setting.types.RTSPS}`, req.__rtsps)
+    commit(`${setting.name}/${setting.types.METAS}`, req.__headmetas)
     if (req.cookies['token']) {
       let headers: HeaderOptions = {
         token: req.cookies['token']
       }
-      let host: string = req.protocol + '://' + req.headers.host
+      // let host: string = req.protocol + '://' + req.headers.host
       try {
-        let result: resufulInfo = await httpClient.get(`${host}/api/v1/passport/accesstoken`, null, headers)
+        let result: resufulInfo = await httpClient.get(`${req.__proxyhost}/api/v1/passport/accesstoken`, null, headers)
         if (result.Status.code === 0) {
           commit(`${auth.name}/${auth.types.SET}`, result.data)
           return
