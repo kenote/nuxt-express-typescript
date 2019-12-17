@@ -25,6 +25,7 @@ import sidebarMenuItem from './menu-item.vue'
 import { responseDocument as responseUserDocument } from '@/types/proxys/user'
 import { Navigation } from 'kenote-config-helper'
 import { map } from 'lodash'
+import { getAccess } from '@/utils/user'
 
 @Component({
   name: 'sidebar-menu',
@@ -54,7 +55,8 @@ export default class R extends Vue {
     let iaccess!: string[]
     let { group, teams, access } = this.auth
     if (group.level < 9000) {
-      iaccess = (access || []).length > 0 ? access : Array.from(new Set(map(teams, 'access').toString().split(',')))
+      // iaccess = (access || []).length > 0 ? access : Array.from(new Set(map(teams, 'access').toString().split(',')))
+      iaccess = getAccess(this.auth)
     }
     this.navs = accessNavs(this.sidebar, iaccess)
   }
@@ -68,7 +70,7 @@ function accessNavs (navs: Navigation[], access?: string[]): Navigation[] {
     }
     else {
       if (!nav.disabled) {
-        nav.disabled = access && access.includes(nav.index)
+        nav.disabled = access && !access.includes(nav.index)
       }
     }
   }

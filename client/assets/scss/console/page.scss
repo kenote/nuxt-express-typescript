@@ -95,10 +95,6 @@
       }
 
       .el-transfer__buttons {
-
-        .el-button {
-          // border-radius: 50%;
-        }
   
         .el-button--primary {
           width: auto;
@@ -107,6 +103,7 @@
       }
 
       .el-transfer-panel__body {
+        height: 264px;
 
         .el-input {
           width: auto;

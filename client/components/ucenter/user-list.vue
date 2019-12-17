@@ -179,8 +179,8 @@ export default class R extends Vue {
 
   }
 
-  handleEdit () {
-
+  handleEdit (index: number, row: responseUserDocument) {
+    this.$emit('edit', index, row)
   }
 
   handleDelete () {

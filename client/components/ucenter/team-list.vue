@@ -6,14 +6,9 @@
           <span>{{ scope.row.id }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="角色名称" width="120">
+      <el-table-column label="团队名称" width="120">
         <template slot-scope="scope">
           <span>{{ scope.row.name }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="权级" width="80" sortable prop="level" align="center">
-        <template slot-scope="scope">
-          <span>{{ scope.row.level }}</span>
         </template>
       </el-table-column>
       <el-table-column label="描述" min-width="300" show-overflow-tooltip>
@@ -31,14 +26,15 @@
         </template>
         <template slot-scope="scope">
           <div style="text-align: right; padding-right: 12px;">
-            <el-dropdown size="small" @command="handleCommand" split-button @click="scope.row.level <= 9997 && !scope.row.default && handleEdit(scope.$index, scope.row)">
-              <span :class="scope.row.level > 9997 || scope.row.default ? 'is-disabled' : ''">编辑</span>
+            <el-dropdown size="small" @command="handleCommand" split-button @click="handleEdit(scope.$index, scope.row)">
+              <span>编辑</span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item :command="`platform:${scope.$index}:${scope.row._id}`" :disabled="scope.row.level > 9997">频道入口</el-dropdown-item>
-                <el-dropdown-item :command="`access:${scope.$index}:${scope.row._id}`" :disabled="scope.row.level > 9997">访问权限</el-dropdown-item>
+                <el-dropdown-item :command="`platform:${scope.$index}:${scope.row._id}`">频道入口</el-dropdown-item>
+                <el-dropdown-item :command="`access:${scope.$index}:${scope.row._id}`">访问权限</el-dropdown-item>
+                <el-dropdown-item :command="`people:${scope.$index}:${scope.row._id}`">成员管理</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)" :disabled="scope.row.level > 9997 || scope.row.default">删除</el-button>
+            <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </div>
         </template>
       </el-table-column>
@@ -48,7 +44,7 @@
         <slot></slot>
       </div>
     </div>
-    <el-dialog title="删除用户组" 
+    <!-- <el-dialog title="删除用户组" 
       :close-on-click-modal="false"
       :modal-append-to-body="false"
       :visible.sync="dialogFormVisible">
@@ -75,19 +71,19 @@
         <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="handleSubmitDelete">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </fragment>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Provide, Vue } from 'nuxt-property-decorator'
-import { responseDocument as responseGroupDocument } from '@/types/proxys/group'
+import { responseDocument as responseTeamDocument } from '@/types/proxys/team'
 import { } from 'element-ui'
 import { ElMessageBoxOptions } from 'element-ui/types/message-box'
 import { oc } from 'ts-optchain'
 
 @Component({
-  name: 'ucenter-group-list',
+  name: 'ucenter-team-list',
   created () {
     let self: R = this as R
     self.handleList()
@@ -98,7 +94,7 @@ import { oc } from 'ts-optchain'
 })
 export default class R extends Vue {
 
-  @Prop({ default: [] }) data!: responseGroupDocument[]
+  @Prop({ default: [] }) data!: responseTeamDocument[]
   @Prop({ default: false }) loading!: boolean
 
   @Provide() search: string = ''
@@ -114,14 +110,25 @@ export default class R extends Vue {
     this.$emit('getlist', null)
   }
 
-  handleEdit (index: number, row: responseGroupDocument): void {
+  handleEdit (index: number, row: responseTeamDocument): void {
     this.$emit('edit', index, row)
   }
 
-  handleDelete (index: number, row: responseGroupDocument): void {
-    this.dialogFormVisible = true
-    this.selected = row._id
-    this.values = { type: 0, move: undefined }
+  async handleDelete (index: number, row: responseTeamDocument): Promise<void> {
+    // this.dialogFormVisible = true
+    // this.selected = row._id
+    // this.values = { type: 0, move: undefined }
+    let options: ElMessageBoxOptions = {
+      confirmButtonText    : '确定',
+      cancelButtonText     : '取消',
+      type                 : 'warning'
+    }
+    try {
+      await this.$confirm('此操作将永久删除该团队, 是否继续?', '提示', options)
+      this.$emit('remove', row._id)
+    } catch (error) {
+      console.log('您已取消删除')
+    }
   }
 
   handleSubmitDelete (): void {
@@ -137,7 +144,7 @@ export default class R extends Vue {
   handleCommand (command: string): void {
     if (!command) return
     let [ type, index, _id ] = command.split(':')
-    let row: responseGroupDocument = oc(this.data)([]).find( o => o._id === _id ) as responseGroupDocument
+    let row: responseTeamDocument = oc(this.data)([]).find( o => o._id === _id ) as responseTeamDocument
     this.$emit(type, index, row)
   }
   
