@@ -4,6 +4,7 @@ import { Command } from '@/types'
 import * as bytes from 'bytes'
 import { oc } from 'ts-optchain'
 import * as yaml from 'js-yaml'
+import { MetaInfo } from 'vue-meta'
 
 /**
  * 将多个集合进行参数合并
@@ -219,5 +220,19 @@ export function isYaml (str: string): boolean {
   } catch (error) {
     return false
   }
+}
+
+export function getMetaInfo (data: Maps<string | undefined>, metas?: any[]): MetaInfo {
+  let metaInfo: MetaInfo = {
+    title: oc(data).title(),
+    meta: metas || []
+  }
+  if (oc(data).keywords()) {
+    metaInfo.meta!.push({ hid: 'keywords', name: 'keywords', content: oc(data).keywords() })
+  }
+  if (oc(data).description()) {
+    metaInfo.meta!.push({ hid: 'description', name: 'description', content: oc(data).description() })
+  }
+  return metaInfo
 }
 

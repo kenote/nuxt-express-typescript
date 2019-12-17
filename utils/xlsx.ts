@@ -8,7 +8,7 @@ import { omit } from 'lodash'
  */
 export function readXlsxFileReader (file: File | Blob): Promise<xlsx.WorkBook> {
   if (!isBlob(file)) {
-    file = new Blob([file], { type: file.type })
+    file = new Blob([file], { type: (<File> file).type })
   }
   return new Promise((resolve, reject) => {
     let xlsxTypes: string[] = [
@@ -23,7 +23,7 @@ export function readXlsxFileReader (file: File | Blob): Promise<xlsx.WorkBook> {
       let data: Uint8Array = new Uint8Array(reader.result as ArrayBuffer)
       resolve(xlsx.read(data, { type: 'array', cellHTML: false }))
     }
-    reader.onerror = (err: ProgressEvent<FileReader>) => {
+    reader.onerror = (err: any) => {
       reject(err)
     }
     reader.readAsArrayBuffer(file)

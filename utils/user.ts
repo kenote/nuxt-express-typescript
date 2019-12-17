@@ -22,6 +22,23 @@ export function getAccess (user: responseUserDocument): string[] {
 }
 
 /**
+ * 获取用户项目线路
+ * @param user responseUserDocument
+ * @param channel string
+ * @param allRtsps string[]
+ */
+export function getRtsps (user: responseUserDocument, channel: string, allRtsps: string[], lockValue?: string): string[] {
+  let { group, teams } = user
+  if (lockValue) return [ lockValue ]
+  if (group.level > 8000) {
+    return allRtsps
+  }
+  let rtsps = map(teams, `rtsps.${channel}`)
+  return parseArray(rtsps)
+
+}
+
+/**
  * 解析多元数组
  * @param value 
  */

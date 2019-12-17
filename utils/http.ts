@@ -3,6 +3,7 @@ import { Maps } from 'kenote-config-helper'
 import { HeaderOptions } from '@/types/resuful'
 import * as FileSaver from 'file-saver'
 import * as URL from 'url'
+import { CancelToken } from 'axios';
 
 /**
  * HTTP 请求类
@@ -100,6 +101,12 @@ class HTTPClient {
           options.download && options.download(percentage)
         }
       }
+    }
+    if (options && options.cancelToken) {
+
+      // config.cancelToken = new axios.CancelToken(function (c) {
+
+      // })
     }
     return getResponseData(config)
   }
