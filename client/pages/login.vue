@@ -39,6 +39,7 @@ const Auth: BindingHelpers = namespace(auth.name)
 
 @Component({
   layout: 'passport',
+  middleware: ['notauthenticated'],
   components: {
     passportLogin
   },
@@ -65,7 +66,7 @@ export default class R extends Vue {
         if (result.Status.code === 0) {
           this.$store.commit(`${auth.name}/${auth.types.SET}`, result.data as responseDocument)
           let { url_callback } = this.$route.query
-          this.$router.push(url_callback as string || '/')
+          this.$router.push(url_callback as string || '/console')
           return
         }
         this.$message.warning(result.Status.message!)
