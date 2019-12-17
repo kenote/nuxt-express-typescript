@@ -13,9 +13,10 @@ import config from '~/config'
 import { loadError } from '@/utils/error'
 import { isMongoId } from 'validator'
 import groupProxy from '~/proxys/group'
+import { filterUserLevel } from '~/middleware/auth'
 
 const { language } = config
-const { __ErrorCode, __ErrorMessage, CustomError } = loadError(language)
+const { __ErrorCode, CustomError } = loadError(language)
 
 class Group {
 
@@ -24,12 +25,16 @@ class Group {
    */
   public create (req: Request, res: IResponse, next: NextFunction): Response | void {
     let body: createGroupDocument = getGroupDocument(req.body)
-    let user: responseUserDocument = req.user as responseUserDocument
-    let userLevel: number = user.group.level
-    if (body.level >= userLevel && userLevel < 9999) {
-      return res.api(null, __ErrorCode.ERROR_BYLOND_LEVEL_OPERATE)
+    let auth: responseUserDocument = req.user as responseUserDocument
+    try {
+      filterUserLevel(auth, body.level, 9998)
+      return next(body)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
     }
-    return next(body)
   }
 
   /**
@@ -37,26 +42,20 @@ class Group {
    */
   public async edit (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
     let { _id } = req.params
+    let auth: responseUserDocument = req.user as responseUserDocument
+    if (!isMongoId(_id)) {
+      return res.api(null, __ErrorCode.ERROR_VALID_IDMARK_NOTEXIST)
+    }
     let doc: editGroupDocument = {
       conditions: { _id },
       data: getGroupDocument(req.body)
-    }
-    let user: responseUserDocument = req.user as responseUserDocument
-    let userLevel: number = user.group.level
-    if (doc.data.level >= userLevel && userLevel < 9999) {
-      return res.api(null, __ErrorCode.ERROR_BYLOND_LEVEL_OPERATE)
-    }
-    if (!isMongoId(_id)) {
-      return res.api(null, __ErrorCode.ERROR_VALID_IDMARK_NOTEXIST)
     }
     try {
       let group: responseGroupDocument = await groupProxy.Dao.findOne(doc.conditions) as responseGroupDocument
       if (!group) {
         return res.api(null, __ErrorCode.ERROR_AUTH_OPERATE_GROUP_NULL)
       }
-      if (group.level >= userLevel && userLevel < 9999) {
-        return res.api(null, __ErrorCode.ERROR_BYLOND_LEVEL_OPERATE)
-      }
+      filterUserLevel(auth, group.level, 9998)
       return next(doc)
     } catch (error) {
       if (CustomError(error)) {
@@ -72,11 +71,7 @@ class Group {
   public async remove (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
     let { _id } = req.params
     let { move } = req.body
-    let user: responseUserDocument = req.user as responseUserDocument
-    let userLevel: number = user.group.level
-    if (userLevel < 9998) {
-      return res.api(null, __ErrorCode.ERROR_ONLY_ADVANCED_ADMIN)
-    }
+    let auth: responseUserDocument = req.user as responseUserDocument
     if (!isMongoId(_id)) {
       return res.api(null, __ErrorCode.ERROR_VALID_IDMARK_NOTEXIST)
     }
@@ -89,6 +84,37 @@ class Group {
       if (!group) {
         return res.api(null, __ErrorCode.ERROR_AUTH_OPERATE_GROUP_NULL)
       }
+      filterUserLevel(auth, group.level, 9998)
+      return next(doc)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
+    }
+  }
+
+  /**
+   * 编辑权限
+   */
+  public async authority (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { _id, authority } = req.params
+    let auth: responseUserDocument = req.user as responseUserDocument
+    if (!isMongoId(_id)) {
+      return res.api(null, __ErrorCode.ERROR_VALID_IDMARK_NOTEXIST)
+    }
+    let doc: editGroupDocument = {
+      conditions: { _id },
+      data: {
+        [authority]: req.body[authority]
+      }
+    }
+    try {
+      let group: responseGroupDocument = await groupProxy.Dao.findOne(doc.conditions) as responseGroupDocument
+      if (!group) {
+        return res.api(null, __ErrorCode.ERROR_AUTH_OPERATE_GROUP_NULL)
+      }
+      filterUserLevel(auth, group.level, 9998)
       return next(doc)
     } catch (error) {
       if (CustomError(error)) {

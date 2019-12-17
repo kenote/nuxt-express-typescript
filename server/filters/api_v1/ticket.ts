@@ -11,6 +11,7 @@ import { format } from 'util'
 import { isDate } from 'lodash'
 import { createDocument as createTicketDocument } from '@/types/proxys/ticket'
 import groupProxy from '~/proxys/group'
+import { filterUserLevel } from '~/middleware/auth'
 
 const { language } = config
 const { __ErrorCode, __ErrorMessage, CustomError } = loadError(language)
@@ -22,8 +23,7 @@ class Ticket {
    */
   public async create (req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
     let { group, last_at, stint } = req.body as Ucenter.CreateTicket
-    let user: responseUserDocument = req.user as responseUserDocument
-    let userLevel: number = user.group.level
+    let auth: responseUserDocument = req.user as responseUserDocument
     let filters: Filter[] = [
       {
         key    : 'group',
@@ -59,9 +59,7 @@ class Ticket {
       if (!group) {
         return res.api(null, __ErrorCode.ERROR_VALID_GROUP_NOTEXIST)
       }
-      if (userLevel <= group.level) {
-        return res.api(null, __ErrorCode.ERROR_BYLOND_LEVEL_OPERATE)
-      }
+      filterUserLevel(auth, group.level, 9998)
       let body: createTicketDocument = getTicketDocument({ ...document, stint, group })
       return next(body)
     } catch (error) {
@@ -79,6 +77,7 @@ class Ticket {
   public remove (req: Request, res: IResponse, next: NextFunction): Response | void {
     let { _id } = req.params
     let { _ids } = req.body
+    let auth: responseUserDocument = req.user as responseUserDocument
     let conditions: any = {}
     if (_id) {
       if (!isMongoId(_id)) {
@@ -89,7 +88,15 @@ class Ticket {
     else {
       conditions = { _id: { $in: Array.isArray(_ids) ? _ids : [] } }
     }
-    return next(conditions)
+    try {
+      filterUserLevel(auth, 0, 9998)
+      return next(conditions)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
+    }
   }
 }
 

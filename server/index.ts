@@ -17,10 +17,7 @@ import { nuxtHandler } from '~/middleware/nuxt'
 import { startegy } from '~/middleware/auth'
 import controller from '~/controller'
 import api_v1 from '~/api/v1'
-import { debug, DebugResult } from 'kenote-config-helper/dist/utils.server'
 import logger from '@/utils/logger'
-
-const log: DebugResult = debug('nuxt_server')
 
 const { Host, Port, session_secret, redis } = config
 const RedisStore: connectRedis.RedisStore = connectRedis(session)

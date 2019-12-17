@@ -3,7 +3,7 @@ import { IResponse } from '@/types/resuful'
 import { loadData } from 'kenote-config-helper/dist/utils.server'
 import { Register } from '@/types/resuful'
 import * as passport from '@/types/passport'
-import { Filter, asyncFilterData } from 'kenote-validate-helper';
+import { Filter, asyncFilterData } from 'kenote-validate-helper'
 import { rules, formatRules } from '~/rules/passport'
 
 class Security {

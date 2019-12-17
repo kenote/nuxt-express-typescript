@@ -81,7 +81,7 @@ export default class Group extends Controller {
    * @param description  <String> 描述
    */
   @Router({ method: 'post', path: '/group/edit/:_id' })
-  @Filter( authenticate, permission('/ucenter/group', 'edit'), groupFilter.edit)
+  @Filter( authenticate, permission('/ucenter/group', 'edit'), groupFilter.edit )
   public async edit (edit: editGroupDocument, req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
     let { conditions, data } = edit
     try {
@@ -105,6 +105,27 @@ export default class Group extends Controller {
     let { conditions, options } = remove
     try {
       let result: DeleteWriteResult = await groupProxy.remove(conditions, options)
+      return res.api(result)
+    } catch (error) {
+      if (CustomError(error)) {
+        return res.api(null, error)
+      }
+      return next(error)
+    }
+  }
+
+  /**
+   * 编辑权限
+   * @param platform  <Number[]> 频道入口
+   * @param access  <String[]> 访问权限
+   */
+  @Router({ method: 'post', path: '/group/:authority(platform|access)/:_id' })
+  @Filter( authenticate, permission('/ucenter/group', 'edit'), groupFilter.authority )
+  public async authority (edit: editGroupDocument, req: Request, res: IResponse, next: NextFunction): Promise<Response | void> {
+    let { conditions, data } = edit
+    console.log(data)
+    try {
+      let result: UpdateWriteResult = await groupProxy.update(conditions, data)
       return res.api(result)
     } catch (error) {
       if (CustomError(error)) {
